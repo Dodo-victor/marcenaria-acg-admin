@@ -1,13 +1,20 @@
 import 'package:acg_admin/firebase_options.dart';
+import 'package:acg_admin/screens/Admin/bottomBar.dart';
+import 'package:acg_admin/screens/Admin/home_screen.dart';
 import 'package:acg_admin/screens/Auth/auth_admin.dart';
+import 'package:acg_admin/widgets/loader.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'Resources/auth_admin_methods.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const ProviderScope(child: MyApp()),);
+  runApp(
+    const ProviderScope(child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ACG Admin',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
@@ -38,8 +45,19 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const AuthAdmin(),
+      home: StreamBuilder<dynamic>(
+          stream: AuthAdminMethods().authStateChange(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: Loader(),
+              );
+            }
+            if (snapshot.hasData) {
+              return const BottomBar();
+            }
+            return const AuthAdmin();
+          }),
     );
   }
 }
-
