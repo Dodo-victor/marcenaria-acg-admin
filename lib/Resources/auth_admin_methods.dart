@@ -1,0 +1,10 @@
+class AuthAdminMethods {
+
+
+authAdminUser() async {
+
+}
+
+
+
+}

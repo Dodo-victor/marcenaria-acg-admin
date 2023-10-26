@@ -1,0 +1,11 @@
+class FirestoreMethods {
+
+setAndCreateMercadory() async {
+
+  
+
+
+}
+
+
+}
