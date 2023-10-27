@@ -20,30 +20,40 @@ class GoogleSignInButton extends StatelessWidget {
     return InkWell(
       onTap: function,
       child: Container(
-        height: height ?? 55,
-        width: width ?? 400,
+        padding: const EdgeInsets.all(3),
         decoration: BoxDecoration(
-          color: ColorsApp.googleSignInColor,
-          borderRadius: BorderRadius.circular(15),
+          color: Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: isLoading
-            ? Center(child: const Loader())
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/google.png",
-                    height: 35,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  const Text(
-                    "Entrar com google",
-                    style: TextStyle(fontSize: 17),
-                  ),
-                ],
-              ),
+        child: Container(
+          height: height ?? 55,
+          width: width ?? 400,
+          decoration: BoxDecoration(
+            color: ColorsApp.googleSignInColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: isLoading
+              ? const Center(child: Loader())
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/google.png",
+                      height: 30,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    const Text(
+                      "Entrar com google",
+                      style: TextStyle(
+                        fontSize: 20,
+                        //  fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }

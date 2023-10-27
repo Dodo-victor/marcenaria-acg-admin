@@ -20,72 +20,60 @@ class _AuthAdminState extends State<AuthAdmin> {
     setState(() {
       _isLogging = true;
     });
-     bool res =
-        await _adminMethods.authAdminUserWithGoogle(context: context);
+    bool res = await _adminMethods.authAdminUserWithGoogle(context: context);
     setState(() {
       _isLogging = false;
     });
-     print(res);
+    print(res);
 
-     if (res == true) {
-
-       Navigator.of(context).pushAndRemoveUntil(   MaterialPageRoute(
-         builder: (context) => const BottomBar(),
-       ), (route) => false);
-
-
-     }
+    if (res == true) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const BottomBar(),
+          ),
+          (route) => false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              //  mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 80,
-                ),
-                Text(
-                  'Seja bem Vindo',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                Text(
-                  "Marcenaria ACG Gonçalves",
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        color: Colors.black45,
-                      ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 80,
-                ),
-                GoogleSignInButton(
-                  isLoading: _isLogging,
-                  function: () async {
-
-
-                     await _signInWithGoogle(context: context);
-
-                   // print(res);
-
-
-
-
-
-                  },
-                ),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          //  mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 200,
             ),
-          ),
+            Text(
+              'Seja bem Vindo',
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+            const SizedBox(
+              height: 80,
+            ),
+            Text(
+              "Marcenaria ACG Gonçalves",
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: Colors.black45,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(
+              height: 80,
+            ),
+            GoogleSignInButton(
+              isLoading: _isLogging,
+              function: () async {
+                await _signInWithGoogle(context: context);
 
+                // print(res);
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
