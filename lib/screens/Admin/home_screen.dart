@@ -1,3 +1,4 @@
+import 'package:acg_admin/screens/Admin/add_merchandise_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AddMerchandiseScreen(),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.edit_note,
                 size: 35,
@@ -44,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 8,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     padding: const EdgeInsets.all(15),
@@ -91,6 +99,33 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Text(
                           "Solicitações",
+                          textAlign: TextAlign.center,
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey.shade300,
+                      //border: Border(right: BorderSide(color: Colors.grey),),
+                    ),
+                    child: const Column(
+                      children: [
+                        Text(
+                          "251",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Produto Vendidos",
                           textAlign: TextAlign.center,
                         )
                       ],

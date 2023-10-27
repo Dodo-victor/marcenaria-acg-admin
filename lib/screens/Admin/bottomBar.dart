@@ -40,7 +40,7 @@ class _BottomBarState extends State<BottomBar> {
         BottomNavigationBarItem(
           label: "Solicitações",
           icon: Icon(
-            Icons.request_page,
+            Icons.shopping_cart_checkout,
 
 
           ),
