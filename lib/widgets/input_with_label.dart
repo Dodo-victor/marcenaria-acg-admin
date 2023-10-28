@@ -7,13 +7,14 @@ class InputWithLabel extends StatelessWidget {
   final String hintText;
   final BoxConstraints? constraints;
   final bool isExpands;
+  final String? Function(String?)? validator;
 
   const InputWithLabel({
     Key? key,
     required this.productName,
     required this.hintText,
     this.constraints,
-    this.isExpands = false,
+    this.isExpands = false, this.validator,
   }) : super(key: key);
 
   @override
@@ -32,6 +33,7 @@ class InputWithLabel extends StatelessWidget {
           title: hintText,
           constraints: constraints,
           isExpands: isExpands,
+          validator: validator,
         ),
       ],
     );

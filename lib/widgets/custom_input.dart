@@ -6,27 +6,39 @@ class CustomInput extends StatelessWidget {
   final String title;
   final BoxConstraints? constraints;
   final bool isExpands;
+  final String? Function(String?)? validator;
 
-  const CustomInput(
-      {Key? key,
-      this.controller,
-      required this.title,
-      this.constraints,
-      this.isExpands = false})
+  const CustomInput({Key? key,
+    this.controller,
+    required this.title,
+    this.constraints,
+    this.isExpands = false, this.validator})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(5),
+      //padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(color: ColorsApp.googleSignInColor),
       child: TextFormField(
         controller: controller,
         expands: isExpands,
+        validator: validator,
+
         decoration: InputDecoration(
-            hintText: title,
-            constraints: constraints,
-            border: InputBorder.none),
+          hintText: title,
+          hintStyle: const TextStyle(color: Colors.black45, fontSize: 12),
+          constraints: constraints,
+          border: InputBorder.none,
+          focusedBorder: OutlineInputBorder(
+
+            borderSide: BorderSide(color: ColorsApp.primaryTheme,
+
+            ),
+            borderRadius: BorderRadius.circular(0),
+          )
+
+        ),
       ),
     );
   }
