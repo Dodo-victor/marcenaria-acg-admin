@@ -9,4 +9,15 @@ class GlobalVariables {
     const RequestPageScreen(),
     const ProfileScreen(),
   ];
+
+  static final List<String> category = [
+    "Porta",
+    "Janela",
+    "Mesa",
+    "Ranks",
+    "Pulpito",
+    "Cadeira",
+    "Armário",
+    "Cama",
+  ];
 }
