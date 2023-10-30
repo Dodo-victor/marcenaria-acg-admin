@@ -4,6 +4,7 @@ import 'custom_input.dart';
 
 class InputWithLabel extends StatelessWidget {
   final String productName;
+  final TextEditingController? controller;
   final String hintText;
   final BoxConstraints? constraints;
   final bool isExpands;
@@ -14,7 +15,9 @@ class InputWithLabel extends StatelessWidget {
     required this.productName,
     required this.hintText,
     this.constraints,
-    this.isExpands = false, this.validator,
+    this.isExpands = false,
+    this.validator,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -30,6 +33,7 @@ class InputWithLabel extends StatelessWidget {
           height: 5,
         ),
         CustomInput(
+          controller: controller,
           title: hintText,
           constraints: constraints,
           isExpands: isExpands,

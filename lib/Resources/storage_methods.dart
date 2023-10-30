@@ -7,15 +7,15 @@ class StorageMethods {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  _saveProductImage({required String childName, required Uint8List file, required String productId }) async {
+  saveProductImage(
+      {required String childName,
+      required Uint8List file,
+      required String productId}) async {
+    Reference ref = _storage.ref().child(childName).child(productId);
+    UploadTask uploadTask = ref.putData(file);
+    TaskSnapshot snap = await uploadTask;
+    String downloadUrl = await snap.ref.getDownloadURL();
 
-Reference ref =  _storage.ref().child(childName).child(productId);
-UploadTask uploadTask = ref.putData(file);
-TaskSnapshot snap = await uploadTask;
-String downloadUrl = await snap.ref.getDownloadURL();
-
-return downloadUrl;
-
+    return downloadUrl;
   }
-
 }

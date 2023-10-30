@@ -2,6 +2,7 @@ import 'package:acg_admin/firebase_options.dart';
 import 'package:acg_admin/screens/Admin/bottomBar.dart';
 import 'package:acg_admin/screens/Admin/home_screen.dart';
 import 'package:acg_admin/screens/Auth/auth_admin.dart';
+import 'package:acg_admin/utilis/colors.dart';
 import 'package:acg_admin/widgets/loader.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
+        appBarTheme: AppBarTheme(backgroundColor: ColorsApp.primaryTheme),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

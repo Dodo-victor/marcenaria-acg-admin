@@ -1,9 +1,9 @@
 class MerchandiseModel {
   final String id;
   final String price;
-  final String name;
-  final String descr;
-  final String woodType;
+  final String? name;
+  final String? descr;
+  final String? woodType;
   final String size;
   final bool hasRequest;
 
@@ -11,13 +11,13 @@ class MerchandiseModel {
 
   MerchandiseModel(
       {required this.price,
-        required this.id,
-        required this.hasRequest,
-        required this.woodType,
-        required this.size,
-        required this.name,
-        required this.descr,
-        required this.photoUrl});
+      required this.id,
+      required this.hasRequest,
+      required this.woodType,
+      required this.size,
+      required this.name,
+      required this.descr,
+      required this.photoUrl});
 
   Map<String, dynamic> toMap() {
     return {

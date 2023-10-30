@@ -11,13 +11,13 @@ class GlobalVariables {
   ];
 
   static final List<String> category = [
-    "Porta",
-    "Janela",
-    "Mesa",
+    "Portas",
+    "Janelas",
+    "Mesas",
     "Ranks",
-    "Pulpito",
-    "Cadeira",
-    "Armário",
-    "Cama",
+    "Pulpitos",
+    "Cadeiras",
+    "Armários",
+    "Camas",
   ];
 }
