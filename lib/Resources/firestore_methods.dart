@@ -10,6 +10,14 @@ class FirestoreMethods {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   final StorageMethods _storage = StorageMethods();
 
+  getRequestClient() async {
+
+    final requestData =  await db.collection("solicitação").get();
+
+    return requestData.docs;
+
+  }
+
   setAndCreateMercadory(
       {required String mercadoryDoc,
       required String mercadoryCollection,
