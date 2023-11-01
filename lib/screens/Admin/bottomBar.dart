@@ -1,23 +1,36 @@
+import 'package:acg_admin/main.dart';
 import 'package:acg_admin/utilis/global_variables.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../utilis/colors.dart';
 
-class BottomBar extends StatefulWidget {
+class BottomBar extends ConsumerStatefulWidget {
   const BottomBar({super.key});
 
   @override
-  State<BottomBar> createState() => _BottomBarState();
+  ConsumerState<BottomBar> createState() => _BottomBarState();
 }
 
-class _BottomBarState extends State<BottomBar> {
+class _BottomBarState extends ConsumerState<BottomBar> {
   int _currentPage = 0;
 
   _navigateToPage(int index) {
     setState(() {
       _currentPage = index;
     });
+  }
+
+  _initGetAllSum() async {
+    await ref.read(merchandiseProvider).getTotalMerchandise();
+    await ref.read(merchandiseProvider).getTotalRequest();
+  }
+
+  @override
+  void initState() {
+    _initGetAllSum();
+    super.initState();
   }
 
   @override

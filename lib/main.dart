@@ -1,6 +1,5 @@
 import 'package:acg_admin/firebase_options.dart';
 import 'package:acg_admin/screens/Admin/bottomBar.dart';
-import 'package:acg_admin/screens/Admin/home_screen.dart';
 import 'package:acg_admin/screens/Auth/auth_admin.dart';
 import 'package:acg_admin/utilis/colors.dart';
 import 'package:acg_admin/widgets/loader.dart';
@@ -9,6 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'Resources/auth_admin_methods.dart';
+import 'repository/merchandise_repository.dart';
+
+final merchandiseProvider = ChangeNotifierProvider(
+  (ref) => MercahndiseRepository(),
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

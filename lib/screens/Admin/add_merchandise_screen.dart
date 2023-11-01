@@ -459,7 +459,7 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                             MerchandiseModel merchandise = MerchandiseModel(
                               price: _priceController.text,
                               id: "",
-                              hasRequest: false,
+                              //  hasRequest: false,
                               woodType: _woodtypeController.text,
                               size: _medidasController.text,
                               name: _nameController.text,

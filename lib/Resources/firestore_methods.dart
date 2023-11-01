@@ -10,14 +10,6 @@ class FirestoreMethods {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   final StorageMethods _storage = StorageMethods();
 
-  getRequestClient() async {
-
-    final requestData =  await db.collection("solicitação").get();
-
-    return requestData.docs;
-
-  }
-
   setAndCreateMercadory(
       {required String mercadoryDoc,
       required String mercadoryCollection,
@@ -34,7 +26,7 @@ class FirestoreMethods {
       descr: merchandiseModel.descr,
       photoUrl: photoUrl,
       id: uid,
-      hasRequest: false,
+      //   hasRequest: false,
       size: merchandiseModel.size,
       woodType: merchandiseModel.woodType,
     );
@@ -63,5 +55,88 @@ class FirestoreMethods {
 
       return merchandiseModel;
     }
+  }
+
+  sumAllMerchandise() async {
+    final doorData = await db
+        .collection('marçenaria')
+        .doc("Portas")
+        .collection("Portas")
+        .get();
+    final doorSize = doorData.size;
+    final tableData = await db
+        .collection('marçenaria')
+        .doc("Mesas")
+        .collection("Mesas")
+        .get();
+    final tableSize = tableData.size;
+
+    final cabinetData = await db
+        .collection('marçenaria')
+        .doc("Armarios")
+        .collection("Armarios")
+        .get();
+    final cabinetSize = cabinetData.size;
+    final bedData = await db
+        .collection('marçenaria')
+        .doc("Camas")
+        .collection("Camas")
+        .get();
+
+    final bedSize = bedData.size;
+
+    final chairData = await db
+        .collection('marçenaria')
+        .doc("Cadeiras")
+        .collection("Cadeiras")
+        .get();
+
+    final chairSize = chairData.size;
+
+    final pulpitData = await db
+        .collection('marçenaria')
+        .doc("Pulpitos")
+        .collection("Pulpitos")
+        .get();
+
+    final pulpitSize = pulpitData.size;
+
+    final int totalMerchandise =
+        doorSize + pulpitSize + chairSize + bedSize + tableSize + cabinetSize;
+
+    return totalMerchandise;
+  }
+
+  Future<List<dynamic>> getRequestClient() async {
+    final data = await db.collection('usuários').get();
+
+    List requestList = [];
+
+    List<String> uids = [
+      "JWZBLIUWLmMDGIkjv5RlCAjyJqy2",
+      "OAu445Tj64h3ntJDiIXyp1zKCF32",
+      "P0z4QjnJ0vVBhIeF8E94Khpp2Rn1"
+    ];
+    for (var element in uids) {
+      final requestdata = await db
+          .collection("solicitação")
+          .doc(element)
+          .collection("solicitação")
+          .get();
+      for (var element in requestdata.docs) {
+        requestList.add(element);
+      }
+    }
+
+    return requestList;
+  }
+
+  getMerchandiseData(
+      {required String merchandiseDoc, required String merchandiseCollection}) {
+    return db
+        .collection('marçenaria')
+        .doc(merchandiseDoc)
+        .collection(merchandiseCollection)
+        .get();
   }
 }
