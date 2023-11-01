@@ -64,6 +64,13 @@ class FirestoreMethods {
         .collection("Portas")
         .get();
     final doorSize = doorData.size;
+
+    final windowData = await db
+        .collection('marçenaria')
+        .doc("Janelas")
+        .collection("Janelas")
+        .get();
+    final windowSize = windowData.size;
     final tableData = await db
         .collection('marçenaria')
         .doc("Mesas")
@@ -101,10 +108,43 @@ class FirestoreMethods {
 
     final pulpitSize = pulpitData.size;
 
-    final int totalMerchandise =
-        doorSize + pulpitSize + chairSize + bedSize + tableSize + cabinetSize;
+    final rankData = await db
+        .collection('marçenaria')
+        .doc("Ranks")
+        .collection("Ranks")
+        .get();
 
-    return totalMerchandise;
+    final rankSize = rankData.size;
+
+    final int totalMerchandise = doorSize +
+        pulpitSize +
+        chairSize +
+        bedSize +
+        tableSize +
+        cabinetSize +windowSize +
+        rankSize;
+
+    /*   int totalCabinet,
+        int totalDoor,
+        int totalChair,
+        int totalwindow,
+        int totalPulpit,
+        int totalTable,
+        int totalRanks,
+        int totalBed,
+        int totalMercahncdise */
+
+    return (
+      totalCabinet: cabinetSize,
+      totalDoor: doorSize,
+      totalChair: chairSize,
+      totalPulpit: pulpitSize,
+      totalWindow: windowSize,
+      totalTable: tableSize,
+      totalRanks: rankSize,
+      totalBed: bedSize,
+      totalMerchandise: totalMerchandise,
+    );
   }
 
   Future<List<dynamic>> getRequestClient() async {

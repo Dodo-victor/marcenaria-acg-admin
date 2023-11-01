@@ -1,35 +1,49 @@
+import 'package:acg_admin/main.dart';
+import 'package:acg_admin/models/merchandise_model.dart';
+import 'package:acg_admin/utilis/global_variables.dart';
 import 'package:acg_admin/widgets/loader.dart';
+import 'package:acg_admin/widgets/mercadory_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../Resources/firestore_methods.dart';
 import '../../utilis/colors.dart';
 
-class ShowMerchandiseScreen extends StatefulWidget {
+class ShowMerchandiseScreen extends ConsumerStatefulWidget {
   const ShowMerchandiseScreen({Key? key}) : super(key: key);
 
   @override
   ShowMerchandiseScreenState createState() => ShowMerchandiseScreenState();
 }
 
-class ShowMerchandiseScreenState extends State<ShowMerchandiseScreen>
+class ShowMerchandiseScreenState extends ConsumerState<ShowMerchandiseScreen>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 8, vsync: this);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final merchandiseData = ref.watch(merchandiseProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mercadorias"),
         bottom: TabBar(
+          isScrollable: true,
+          dividerColor: ColorsApp.googleSignInColor,
           tabs: [
-            const Text("Portas 54"),
-            const Text("Janelas 45"),
+            Text("Porta (${merchandiseData.doorSize})"),
+            Text("Janela (${merchandiseData.windowSize})"),
+            Text("Mesa (${merchandiseData.tableSize})"),
+            Text("Rank (${merchandiseData.rankSize})"),
+            Text("Pulpito (${merchandiseData.pulpitSize})"),
+            Text("Cadeira (${merchandiseData.chairSize})"),
+            Text("Armário (${merchandiseData.cabinetSize})"),
+            Text("Camas (${merchandiseData.bedSize})"),
           ],
           indicator: BoxDecoration(
               color: ColorsApp.googleSignInColor.withOpacity(0.5),
@@ -41,162 +55,70 @@ class ShowMerchandiseScreenState extends State<ShowMerchandiseScreen>
           //  indicatorPadding: EdgeInsets.all(8),
         ),
       ),
-      body: TabBarView(controller: _tabController, children: [
-        FutureBuilder<dynamic>(
-          future: FirestoreMethods().getMerchandiseData(
-              merchandiseDoc: "Portas", merchandiseCollection: "Portas"),
-          builder: (context, snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: Loader(),
-              );
-            }
+      body: TabBarView(
+          controller: _tabController,
+          children: GlobalVariables.category.map((e) {
+            return FutureBuilder<dynamic>(
+                future: FirestoreMethods().getMerchandiseData(
+                    merchandiseDoc: e, merchandiseCollection: e),
+                builder: (context, snap) {
+                  if (snap.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: Loader(),
+                    );
+                  }
 
-            if (snap.hasData) {
-              return Column(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: snap.data.docs.length as dynamic,
-                        itemBuilder: (context, index) {
-                          return FittedBox(
-                            child: SizedBox(
-                              height: 200,
-                              width: 200,
-                              child: ListTile(
-                                leading: Container(
-                                  padding: EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(10)),
-                                      color: Colors.grey.shade200),
-                                  child: Container(
-                                    height: 75,
-                                    width: 75,
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(""),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                subtitle: const Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Mesa Orval"),
-                                    SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text("50.000.00kz"),
-                                  ],
-                                ),
-                                trailing: const Text(
-                                  "a poucos segundos 1 dia",
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w400),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
+                  if (snap.hasData) {
+                    final length = snap.data.docs.length as dynamic;
+
+                    return length == 0
+                        ? Center(
+                            child: Text(
+                              "Sem Registro",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium
+                                  ?.copyWith(color: Colors.black45),
                             ),
+                          )
+                        : Column(
+                            children: [
+                              Expanded(
+                                child: ListView.separated(
+                                  itemCount: length,
+                                  itemBuilder: (context, index) {
+                                    final merchandiseData = snap.data.docs;
+
+                                    final MerchandiseModel merchandiseModel =
+                                        MerchandiseModel.fromMap(
+                                            merchandiseData[index]);
+
+                                    return MerchandiseCard(
+                                      productName: merchandiseModel.name ?? "",
+                                      price: merchandiseModel.price,
+                                      date: "14-7-2022",
+                                      photoUrl: merchandiseModel.photoUrl,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 20),
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          const Divider(),
+                                ),
+                              )
+                            ],
                           );
-                        }),
-                  )
-                ],
-              ); /* SizedBox(
-                height: 200,
-                width: 400,
-                child: ListTile(
-                  leading: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.only(bottomRight: Radius.circular(10)),
-                        color: Colors.grey.shade200),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(""),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                  }
+
+                  return const Center(
+                    child: Text(
+                      "Ocorreu um erro ao buscar os dados",
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  subtitle: Text(
-                      "DATA"), /* const Column(
-                    children: [
-                      Text("Mesa Orval"),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text("50.000.00kz"),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text("1 dia"),
-                    ],
-                  ), */
-                ),
-              ); */
-            }
-
-            return const Center(
-              child: Text(
-                "Ocorreu um erro ao buscar os dados",
-                textAlign: TextAlign.center,
-              ),
-            );
-          },
-        ),
-        FutureBuilder(
-            future: FirestoreMethods().getMerchandiseData(
-                merchandiseDoc: "Janelas", merchandiseCollection: "Janelas"),
-            builder: (context, snap) {
-              if (snap.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: Loader(),
-                );
-              }
-
-              if (snap.hasData) {
-                return Center(
-                  child: Text("data"),
-                ); /* SizedBox(
-                  height: 200,
-                  width: 400,
-                  child: ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(10)),
-                          color: Colors.grey.shade200),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(""),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    subtitle: Text("DATA"),
-                  ),
-                ); */
-              }
-
-              return const Center(
-                child: Text(
-                  "Ocorreu um erro ao buscar os dados",
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }),
-      ]),
+                  );
+                });
+          }).toList()),
     );
   }
 }

@@ -70,10 +70,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             InkWell(
                               onTap: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ShowMerchandiseScreen()));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ShowMerchandiseScreen(),
+                                  ),
+                                );
                               },
                               child: Container(
                                 width: 120,
