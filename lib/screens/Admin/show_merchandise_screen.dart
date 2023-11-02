@@ -1,5 +1,6 @@
 import 'package:acg_admin/main.dart';
 import 'package:acg_admin/models/merchandise_model.dart';
+import 'package:acg_admin/screens/Admin/merchandise_details_screen.dart';
 import 'package:acg_admin/utilis/global_variables.dart';
 import 'package:acg_admin/widgets/loader.dart';
 import 'package:acg_admin/widgets/mercadory_card.dart';
@@ -93,13 +94,29 @@ class ShowMerchandiseScreenState extends ConsumerState<ShowMerchandiseScreen>
                                         MerchandiseModel.fromMap(
                                             merchandiseData[index]);
 
-                                    return MerchandiseCard(
-                                      productName: merchandiseModel.name ?? "",
-                                      price: merchandiseModel.price,
-                                      date: "14-7-2022",
-                                      photoUrl: merchandiseModel.photoUrl,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 20),
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MerchandiseDetailsScreen(
+                                              merchandiseModel:
+                                                  merchandiseModel,
+                                              merchandiseDoc: e,
+                                              merchandiseCollection: e,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: MerchandiseCard(
+                                        productName:
+                                            merchandiseModel.name ?? "",
+                                        price: merchandiseModel.price,
+                                        date: "14-7-2022",
+                                        photoUrl: merchandiseModel.photoUrl,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 20),
+                                      ),
                                     );
                                   },
                                   separatorBuilder:

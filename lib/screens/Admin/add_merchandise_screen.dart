@@ -3,6 +3,7 @@
 import 'dart:typed_data';
 
 import 'package:acg_admin/Resources/firestore_methods.dart';
+import 'package:acg_admin/main.dart';
 import 'package:acg_admin/models/merchandise_model.dart';
 import 'package:acg_admin/utilis/colors.dart';
 import 'package:acg_admin/utilis/global_variables.dart';
@@ -10,6 +11,7 @@ import 'package:acg_admin/utilis/pick_image.dart';
 import 'package:acg_admin/utilis/show_select_image_options.dart';
 import 'package:acg_admin/widgets/loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../widgets/input_with_label.dart';
@@ -100,7 +102,7 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                         image: NetworkImage(
                           merchandiseModel.photoUrl,
                         ),
@@ -450,41 +452,45 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  SubmitButton(
-                      title: "Publicar Produto",
-                      function: () async {
-                        if (_formKey.currentState!.validate()) {
-                          _showLoader(context);
-                          if (_category != null || _image != null) {
-                            MerchandiseModel merchandise = MerchandiseModel(
-                              price: _priceController.text,
-                              id: "",
-                              //  hasRequest: false,
-                              woodType: _woodtypeController.text,
-                              size: _medidasController.text,
-                              name: _nameController.text,
-                              descr: _descrController.text,
-                              photoUrl: "",
-                            );
+                  Consumer(builder: (context, WidgetRef ref, child) {
+                    final merchandiseProv = ref.watch(merchandiseProvider);
+                    return SubmitButton(
+                        title: "Publicar Produto",
+                        function: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _showLoader(context);
+                            if (_category != null || _image != null) {
+                              MerchandiseModel merchandise = MerchandiseModel(
+                                price: _priceController.text,
+                                id: "",
+                                //  hasRequest: false,
+                                woodType: _woodtypeController.text,
+                                size: _medidasController.text,
+                                name: _nameController.text,
+                                descr: _descrController.text,
+                                photoUrl: "",
+                              );
 
-                            final merchandiseData =
-                                await _db.setAndCreateMercadory(
-                              mercadoryDoc: _category!,
-                              mercadoryCollection: _category!,
-                              file: _image!,
-                              merchandiseModel: merchandise,
-                            );
+                              final merchandiseData =
+                                  await _db.setAndCreateMercadory(
+                                mercadoryDoc: _category!,
+                                mercadoryCollection: _category!,
+                                file: _image!,
+                                merchandiseModel: merchandise,
+                              );
+                              await merchandiseProv.getTotalMerchandise();
 
-                            Navigator.pop(context);
+                              Navigator.pop(context);
 
-                            _showSuccesProductDeatils(
-                              context: context,
-                              merchandiseModel: merchandiseData,
-                            );
-                            //      }
+                              _showSuccesProductDeatils(
+                                context: context,
+                                merchandiseModel: merchandiseData,
+                              );
+                              //      }
+                            }
                           }
-                        }
-                      }),
+                        });
+                  }),
                   const SizedBox(
                     height: 20,
                   ),

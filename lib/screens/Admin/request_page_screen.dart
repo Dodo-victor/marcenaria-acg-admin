@@ -24,7 +24,7 @@ class RequestPageScreen extends ConsumerWidget {
           title: const Text('Solicitações'),
         ),
         body: requestData.when(data: (data) {
-          print(data.first["nome"]);
+          // print(data.first["nome"]);
           return Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(

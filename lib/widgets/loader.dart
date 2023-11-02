@@ -27,15 +27,15 @@ class Loader extends StatelessWidget {
             child: SizedBox(
               height: 80,
               width: 10,
-              child: SpinKitWaveSpinner(
+              child: SpinKitCircle(
                 color: color ?? ColorsApp.primaryTheme,
                 size: 20,
               ),
             ),
           )
-        : SpinKitWaveSpinner(
+        : SpinKitCircle(
             color: color ?? ColorsApp.primaryTheme,
-            size: 20,
+            size: 35,
           );
   }
 }

@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:typed_data';
 
 import 'package:acg_admin/Resources/storage_methods.dart';
+import 'package:acg_admin/utilis/showSnackBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/merchandise_model.dart';
@@ -121,7 +125,8 @@ class FirestoreMethods {
         chairSize +
         bedSize +
         tableSize +
-        cabinetSize +windowSize +
+        cabinetSize +
+        windowSize +
         rankSize;
 
     /*   int totalCabinet,
@@ -178,5 +183,22 @@ class FirestoreMethods {
         .doc(merchandiseDoc)
         .collection(merchandiseCollection)
         .get();
+  }
+
+  updateMerchandiseData(BuildContext context,
+      {required String merchandiseDoc,
+      required merchandiseCollection,
+      required productId,
+      required Map<Object, Object?> data}) async {
+    try {
+      await db
+          .collection('marçenaria')
+          .doc(merchandiseDoc)
+          .collection(merchandiseCollection)
+          .doc(productId)
+          .update(data);
+    } catch (e) {
+      showSnackBar(content: "Ocorreu um erro desconhecido", context: context);
+    }
   }
 }

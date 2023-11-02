@@ -1,5 +1,8 @@
 import 'package:acg_admin/Resources/firestore_methods.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../models/merchandise_model.dart';
 
 class MercahndiseRepository extends ChangeNotifier {
   int? _totalMerchandise;
@@ -12,6 +15,9 @@ class MercahndiseRepository extends ChangeNotifier {
   int? _bedSize;
   int? _cabinetSize;
   int? _tableSize;
+  MerchandiseModel? _merchandiseModel;
+/*   String? _productName;
+  String? _price; */
 
   int? get totalMercahncdise => _totalMerchandise;
   int? get totalRequest => _totalRequest;
@@ -23,6 +29,10 @@ class MercahndiseRepository extends ChangeNotifier {
   int get bedSize => _bedSize ?? 0;
   int get cabinetSize => _cabinetSize ?? 0;
   int get tableSize => _tableSize ?? 0;
+  MerchandiseModel? get merchandiseModel => _merchandiseModel;
+
+/*   String? get productName => _productName;
+  String get price => _price ?? ""; */
 
   getTotalMerchandise() async {
     final result = await FirestoreMethods().sumAllMerchandise();
@@ -43,6 +53,28 @@ class MercahndiseRepository extends ChangeNotifier {
   getTotalRequest() async {
     final result = await FirestoreMethods().getRequestClient();
     _totalRequest = result.length;
+    notifyListeners();
+  }
+
+  getProductData(
+      {required String merchandiseDoc,
+      required merchandiseCollection,
+      required productId}) async {
+    final productData = await FirebaseFirestore.instance
+        .collection('marçenaria')
+        .doc(merchandiseDoc)
+        .collection(merchandiseCollection)
+        .doc(productId)
+        .get();
+
+    final MerchandiseModel merchandiseData =
+        MerchandiseModel.fromMap(productData);
+
+    _merchandiseModel = merchandiseData;
+
+    /*  _productName = merchandiseData.name ?? "";
+    _price = merchandiseData.price; */
+
     notifyListeners();
   }
 }
