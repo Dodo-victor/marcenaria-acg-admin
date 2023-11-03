@@ -468,7 +468,7 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                                 size: _medidasController.text,
                                 name: _nameController.text,
                                 descr: _descrController.text,
-                                photoUrl: "",
+                                photoUrl: "", date: DateTime.now(),
                               );
 
                               final merchandiseData =

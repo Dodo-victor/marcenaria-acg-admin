@@ -42,54 +42,117 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Consumer(builder: (context, WidgetRef ref, child) {
             final merchandiseData = ref.watch(merchandiseProvider);
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text("Relatório Geral",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                const SizedBox(
-                  height: 8,
-                ),
-                const Divider(),
-                const SizedBox(
-                  height: 8,
-                ),
-                FittedBox(
-                  child: merchandiseData.totalMercahncdise != null &&
-                          merchandiseData.totalRequest != null
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ShowMerchandiseScreen(),
+            return RefreshIndicator(
+              onRefresh: () async {
+                await merchandiseData.getTotalRequest();
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Text("Relatório Geral",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  const Divider(),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  FittedBox(
+                    child: merchandiseData.totalMercahncdise != null &&
+                            merchandiseData.totalRequest != null
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ShowMerchandiseScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  width: 120,
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                      //  border: Border(right: BorderSide( : Colors.grey)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: ColorsApp.googleSignInColor),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        merchandiseData.totalMercahncdise
+                                                .toString() ??
+                                            "350",
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Mercadoria",
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
                                   ),
-                                );
-                              },
-                              child: Container(
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
                                 width: 120,
                                 padding: const EdgeInsets.all(15),
                                 decoration: BoxDecoration(
-                                    //  border: Border(right: BorderSide( : Colors.grey)),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: ColorsApp.googleSignInColor),
+                                  color: ColorsApp.googleSignInColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  //border: Border(right: BorderSide(color: Colors.grey),),
+                                ),
                                 child: Column(
                                   children: [
                                     Text(
-                                      merchandiseData.totalMercahncdise
-                                              .toString() ??
-                                          "350",
+                                      merchandiseData.totalRequest.toString(),
+                                      style: const TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    const Text(
+                                      "Solicitações",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Container(
+                                width: 120,
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  color: ColorsApp.googleSignInColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  //border: Border(right: BorderSide(color: Colors.grey),),
+                                ),
+                                child: const Column(
+                                  children: [
+                                    Text(
+                                      "20",
                                       style: TextStyle(
                                           fontSize: 17,
                                           fontWeight: FontWeight.bold),
@@ -98,99 +161,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                       height: 5,
                                     ),
                                     Text(
-                                      "Mercadoria",
+                                      "Vendas",
                                       textAlign: TextAlign.center,
                                     )
                                   ],
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              width: 120,
-                              padding: const EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                color: ColorsApp.googleSignInColor,
-                                borderRadius: BorderRadius.circular(10),
-                                //border: Border(right: BorderSide(color: Colors.grey),),
+                              const SizedBox(
+                                width: 10,
                               ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    merchandiseData.totalRequest.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  const Text(
-                                    "Solicitações",
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              width: 120,
-                              padding: const EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                color: ColorsApp.googleSignInColor,
-                                borderRadius: BorderRadius.circular(10),
-                                //border: Border(right: BorderSide(color: Colors.grey),),
-                              ),
-                              child: const Column(
-                                children: [
-                                  Text(
-                                    "20",
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "Vendas",
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                          ],
-                        )
-                      : FittedBox(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              for (int i = 0; i < 3; i++)
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: 80,
-                                    width: 120,
-                                    padding: const EdgeInsets.all(15),
-                                    decoration: BoxDecoration(
-                                      color: ColorsApp.googleSignInColor,
-                                      borderRadius: BorderRadius.circular(10),
-                                      //border: Border(right: BorderSide(color: Colors.grey),),
+                            ],
+                          )
+                        : FittedBox(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                for (int i = 0; i < 3; i++)
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: 80,
+                                      width: 120,
+                                      padding: const EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                        color: ColorsApp.googleSignInColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                        //border: Border(right: BorderSide(color: Colors.grey),),
+                                      ),
                                     ),
                                   ),
-                                ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                )
-              ],
+                  )
+                ],
+              ),
             );
           }),
         ) /* Center(

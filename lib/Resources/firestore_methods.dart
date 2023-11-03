@@ -30,6 +30,7 @@ class FirestoreMethods {
       descr: merchandiseModel.descr,
       photoUrl: photoUrl,
       id: uid,
+      date: DateTime.now(),
       //   hasRequest: false,
       size: merchandiseModel.size,
       woodType: merchandiseModel.woodType,
@@ -84,8 +85,8 @@ class FirestoreMethods {
 
     final cabinetData = await db
         .collection('marçenaria')
-        .doc("Armarios")
-        .collection("Armarios")
+        .doc("Armários")
+        .collection("Armários")
         .get();
     final cabinetSize = cabinetData.size;
     final bedData = await db
@@ -183,6 +184,18 @@ class FirestoreMethods {
         .doc(merchandiseDoc)
         .collection(merchandiseCollection)
         .get();
+  }
+
+  deleteMerchandise(
+      {required String merchandiseDoc,
+      required merchandiseCollection,
+      required productId}) async {
+    await db
+        .collection('marçenaria')
+        .doc(merchandiseDoc)
+        .collection(merchandiseCollection)
+        .doc(productId)
+        .delete();
   }
 
   updateMerchandiseData(BuildContext context,

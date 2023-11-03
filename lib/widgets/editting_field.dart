@@ -10,6 +10,10 @@ class EdittingField extends StatelessWidget {
   final VoidCallback? isEdittingFunc;
   final VoidCallback? updateData;
   final Color? color;
+  final int? maxLines;
+  final int? minLines;
+  final BoxConstraints? constraints;
+  final bool isExpands;
 
   const EdittingField(
       {Key? key,
@@ -19,7 +23,11 @@ class EdittingField extends StatelessWidget {
       this.isEdittingFunc,
       this.updateData,
       this.color,
-      this.loader = false})
+      this.loader = false,
+      this.isExpands = false,
+      this.maxLines = 1,
+      this.minLines = 1,
+      this.constraints})
       : super(key: key);
 
   @override
@@ -33,6 +41,9 @@ class EdittingField extends StatelessWidget {
           : TextField(
               controller: controller,
               readOnly: isEditingName,
+              maxLines: maxLines,
+              minLines: minLines,
+              expands: isExpands,
               decoration: InputDecoration(
                   suffixIcon: !isEditingName
                       ? isEditting
@@ -50,7 +61,8 @@ class EdittingField extends StatelessWidget {
                               color:
                                   isEditingName ? Colors.grey.shade200 : null),
                         ),
-                  border: InputBorder.none),
+                  border: InputBorder.none,
+                  constraints: constraints),
             ),
     );
   }

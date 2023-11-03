@@ -56,6 +56,33 @@ class MercahndiseRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  deleteMerchandise({
+    required String merchandiseDoc,
+    required String merchandiseCollection,
+    required String productId,
+  }) async {
+    await FirestoreMethods().deleteMerchandise(
+        merchandiseDoc: merchandiseDoc,
+        merchandiseCollection: merchandiseCollection,
+        productId: productId);
+
+    notifyListeners();
+  }
+
+  refreshProductData({
+    required String merchandiseDoc,
+    required merchandiseCollection,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('marçenaria')
+        .doc(merchandiseDoc)
+        .collection(merchandiseCollection)
+        .get();
+
+    await getTotalMerchandise();
+    notifyListeners();
+  }
+
   getProductData(
       {required String merchandiseDoc,
       required merchandiseCollection,

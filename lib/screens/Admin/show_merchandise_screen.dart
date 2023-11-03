@@ -1,3 +1,4 @@
+import 'package:acg_admin/Resources/times_ago_methods..dart';
 import 'package:acg_admin/main.dart';
 import 'package:acg_admin/models/merchandise_model.dart';
 import 'package:acg_admin/screens/Admin/merchandise_details_screen.dart';
@@ -72,60 +73,103 @@ class ShowMerchandiseScreenState extends ConsumerState<ShowMerchandiseScreen>
                   if (snap.hasData) {
                     final length = snap.data.docs.length as dynamic;
 
-                    return length == 0
-                        ? Center(
-                            child: Text(
-                              "Sem Registro",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
-                                  ?.copyWith(color: Colors.black45),
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              Expanded(
-                                child: ListView.separated(
-                                  itemCount: length,
-                                  itemBuilder: (context, index) {
-                                    final merchandiseData = snap.data.docs;
-
-                                    final MerchandiseModel merchandiseModel =
-                                        MerchandiseModel.fromMap(
-                                            merchandiseData[index]);
-
-                                    return InkWell(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                MerchandiseDetailsScreen(
-                                              merchandiseModel:
-                                                  merchandiseModel,
-                                              merchandiseDoc: e,
-                                              merchandiseCollection: e,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: MerchandiseCard(
-                                        productName:
-                                            merchandiseModel.name ?? "",
-                                        price: merchandiseModel.price,
-                                        date: "14-7-2022",
-                                        photoUrl: merchandiseModel.photoUrl,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 20),
-                                      ),
+                    if (length == 0) {
+                      return RefreshIndicator(
+                        color: ColorsApp.primaryTheme,
+                        onRefresh: () async {
+                          await merchandiseData.refreshProductData(
+                            merchandiseDoc: e,
+                            merchandiseCollection: e,
+                          );
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: ListView.builder(
+                                  itemCount: 1,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          height: 260,
+                                        ),
+                                        Text(
+                                          "Sem Registro",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineMedium
+                                              ?.copyWith(color: Colors.black45),
+                                        ),
+                                      ],
                                     );
                                   },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) =>
-                                          const Divider(),
                                 ),
-                              )
-                            ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return RefreshIndicator(
+                        color: ColorsApp.primaryTheme,
+                        onRefresh: () async {
+                          await merchandiseData.refreshProductData(
+                            merchandiseDoc: e,
+                            merchandiseCollection: e,
                           );
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: ListView.separated(
+                                itemCount: length,
+                                itemBuilder: (context, index) {
+                                  final merchandiseData = snap.data.docs;
+
+                                  final MerchandiseModel merchandiseModel =
+                                      MerchandiseModel.fromMap(
+                                          merchandiseData[index]);
+
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MerchandiseDetailsScreen(
+                                            merchandiseModel: merchandiseModel,
+                                            merchandiseDoc: e,
+                                            merchandiseCollection: e,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: MerchandiseCard(
+                                      productName: merchandiseModel.name ?? "",
+                                      price: merchandiseModel.price,
+                                      date: TimesAgo.setDate(
+                                        merchandiseModel.date.toDate(),
+                                      ),
+                                      photoUrl: merchandiseModel.photoUrl,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 20),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        const Divider(),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }
                   }
 
                   return const Center(
