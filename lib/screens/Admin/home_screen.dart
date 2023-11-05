@@ -1,5 +1,6 @@
 import 'package:acg_admin/main.dart';
 import 'package:acg_admin/screens/Admin/add_merchandise_screen.dart';
+import 'package:acg_admin/screens/Admin/request_status_screnn.dart';
 import 'package:acg_admin/screens/Admin/show_merchandise_screen.dart';
 import 'package:acg_admin/utilis/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,10 +42,12 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Consumer(builder: (context, WidgetRef ref, child) {
-            final merchandiseData = ref.watch(merchandiseProvider);
+            final refData = ref;
+            final merchandiseData = refData.watch(merchandiseProvider);
+            final requestData = refData.watch(requestProvider);
             return RefreshIndicator(
               onRefresh: () async {
-                await merchandiseData.getTotalRequest();
+                await requestData.getTotalRquest();
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   FittedBox(
                     child: merchandiseData.totalMercahncdise != null &&
-                            merchandiseData.totalRequest != null
+                            requestData.totalRequest != null
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -112,30 +115,39 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              Container(
-                                width: 120,
-                                padding: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: ColorsApp.googleSignInColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                  //border: Border(right: BorderSide(color: Colors.grey),),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      merchandiseData.totalRequest.toString(),
-                                      style: const TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    const Text(
-                                      "Solicitações",
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RequestStatusScrenn()));
+                                },
+                                child: Container(
+                                  width: 120,
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                    color: ColorsApp.googleSignInColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                    //border: Border(right: BorderSide(color: Colors.grey),),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        requestData.totalRequest.toString(),
+                                        style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      const Text(
+                                        "Solicitações",
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                               const SizedBox(

@@ -360,33 +360,39 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                     surfaceTintColor: Colors.grey.shade100,
                     elevation: 20,
                     shadowColor: Colors.white,
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        const Text(
-                          "Datalhes do produto",
-                          style: TextStyle(
-                              color: Colors.black45,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        const Divider(),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InputWithLabel(
-                            controller: _descrController,
-                            productName: "Descrição*",
-                            isExpands: false,
-                            constraints:
-                                const BoxConstraints.expand(height: 120),
-                            hintText: "De uma informação adicional do produto",
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 15,
                           ),
-                        ),
-                      ],
+                          const Text(
+                            "Datalhes do produto",
+                            style: TextStyle(
+                                color: Colors.black45,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Divider(),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InputWithLabel(
+                              maxLines: null,
+                              minLines: null,
+                              controller: _descrController,
+                              productName: "Descrição*",
+                              isExpands: true,
+                              constraints:
+                                  const BoxConstraints.expand(height: 120),
+                              hintText:
+                                  "De uma informação adicional do produto",
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -397,24 +403,24 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                     surfaceTintColor: Colors.grey.shade100,
                     shadowColor: Colors.white,
                     elevation: 20,
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        const Text(
-                          "Selecionar Categoria",
-                          style: TextStyle(
-                            color: Colors.black45,
-                            fontWeight: FontWeight.bold,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 15,
                           ),
-                        ),
-                        const SizedBox(height: 15),
-                        const Divider(),
-                        //  SizedBox(height: 8),
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: DropdownButtonFormField(
+                          const Text(
+                            "Selecionar Categoria",
+                            style: TextStyle(
+                              color: Colors.black45,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          const Divider(),
+                          SizedBox(height: 8),
+                          DropdownButtonFormField(
                               // key: _formKey,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -442,11 +448,11 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                                   },
                                 );
                               }),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(

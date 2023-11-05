@@ -3,8 +3,10 @@
 import 'dart:typed_data';
 
 import 'package:acg_admin/Resources/storage_methods.dart';
+import 'package:acg_admin/utilis/global_variables.dart';
 import 'package:acg_admin/utilis/showSnackBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -34,6 +36,7 @@ class FirestoreMethods {
       //   hasRequest: false,
       size: merchandiseModel.size,
       woodType: merchandiseModel.woodType,
+      productName: merchandiseModel.name ?? "",
     );
 
     await db
@@ -154,19 +157,14 @@ class FirestoreMethods {
   }
 
   Future<List<dynamic>> getRequestClient() async {
-    final data = await db.collection('usuários').get();
+    final userData = await db.collection('usuários').get();
 
     List requestList = [];
 
-    List<String> uids = [
-      "JWZBLIUWLmMDGIkjv5RlCAjyJqy2",
-      "OAu445Tj64h3ntJDiIXyp1zKCF32",
-      "P0z4QjnJ0vVBhIeF8E94Khpp2Rn1"
-    ];
-    for (var element in uids) {
+    for (var data in userData.docs) {
       final requestdata = await db
           .collection("solicitação")
-          .doc(element)
+          .doc(data["uid"])
           .collection("solicitação")
           .get();
       for (var element in requestdata.docs) {
@@ -175,6 +173,57 @@ class FirestoreMethods {
     }
 
     return requestList;
+  }
+
+  Future<List<dynamic>> getRequestData({required String category}) async {
+    final userData = await db.collection('usuários').get();
+
+    List requestList = [];
+
+    for (var data in userData.docs) {
+      final requestdata = await db
+          .collection("solicitação")
+          .doc(data["uid"])
+          .collection("solicitação")
+          .where("categoria", isEqualTo: category)
+          .get();
+      for (var element in requestdata.docs) {
+        requestList.add(element);
+      }
+    }
+
+    return requestList;
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getAllUser() async {
+    final userData = await db.collection('usuários').get();
+
+    return userData;
+  }
+
+  /* Future<({String totalSize})> */
+  Future<Iterable<Future<List<dynamic>>>> getTotalRequest() async {
+    final userData = await getAllUser();
+
+    final category = GlobalVariables.category.map((e) async {
+      List requestList = [];
+      for (var data in userData.docs) {
+        final requestdata = await db
+            .collection("solicitação")
+            .doc(data["uid"])
+            .collection("solicitação")
+            .where("categoria", isEqualTo: e)
+            .get();
+        for (var element in requestdata.docs) {
+          print(element.data());
+          requestList.add(element);
+        }
+      }
+
+      return requestList;
+    });
+
+    return category;
   }
 
   getMerchandiseData(
@@ -196,13 +245,25 @@ class FirestoreMethods {
         .collection(merchandiseCollection)
         .doc(productId)
         .delete();
+
+    final userData = await db.collection('usuários').get();
+
+    for (var docs in userData.docs) {
+      final requestdata = await db
+          .collection("solicitação")
+          .doc(docs["uid"])
+          .collection("solicitação")
+          .doc(productId)
+          .delete();
+    }
   }
 
   updateMerchandiseData(BuildContext context,
       {required String merchandiseDoc,
       required merchandiseCollection,
       required productId,
-      required Map<Object, Object?> data}) async {
+      required Map<Object, Object?> data,
+      Map<Object, Object?>? requestData}) async {
     try {
       await db
           .collection('marçenaria')
@@ -210,8 +271,31 @@ class FirestoreMethods {
           .collection(merchandiseCollection)
           .doc(productId)
           .update(data);
+
+      final userData = await db.collection('usuários').get();
+
+      for (var docs in userData.docs) {
+        final requestSize = await db
+            .collection("solicitação")
+            .doc(docs["uid"])
+            .collection("solicitação")
+            .where("idUsuario", isEqualTo: docs["uid"])
+            .get();
+
+        if (requestSize.size != 0) {
+          for (var docs in requestSize.docs) {
+            await db
+                .collection("solicitação")
+                .doc(docs["idUsuario"])
+                .collection("solicitação")
+                .doc(productId)
+                .update(requestData ?? data);
+          }
+        }
+      }
     } catch (e) {
-      showSnackBar(content: "Ocorreu um erro desconhecido", context: context);
+      showSnackBar(
+          content: "Ocorreu um erro, tente novament!", context: context);
     }
   }
 }

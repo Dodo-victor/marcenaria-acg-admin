@@ -1,5 +1,7 @@
+import 'package:acg_admin/Resources/times_ago_methods..dart';
 import 'package:acg_admin/models/merchandise_model.dart';
 import 'package:acg_admin/widgets/submit_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RequestDetaiScreen extends StatelessWidget {
@@ -10,16 +12,23 @@ class RequestDetaiScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Detalhes"),
+        title:
+            Text("Olá ${FirebaseAuth.instance.currentUser?.displayName ?? ""}"),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 20,
               ),
+              /*     Text(
+                "${merchandiseModel.name}, solicitou este produto:",
+                style: Theme.of(context).textTheme.bodyMedium,
+              ), */
+
               Container(
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
@@ -35,7 +44,7 @@ class RequestDetaiScreen extends StatelessWidget {
                     borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(15)),
                     image: DecorationImage(
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                         image: NetworkImage(merchandiseModel.photoUrl)),
 
                     //color: Colors.gr
@@ -51,7 +60,7 @@ class RequestDetaiScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: const Text(
-                  "Solicitante",
+                  "Solicitante:",
                   style: TextStyle(fontSize: 17),
                 ),
                 trailing: Text(
@@ -59,19 +68,9 @@ class RequestDetaiScreen extends StatelessWidget {
                   style: const TextStyle(fontSize: 17),
                 ),
               ),
-              ListTile(
-                leading: const Text(
-                  "Preço",
-                  style: TextStyle(fontSize: 17),
-                ),
-                trailing: Text(
-                  merchandiseModel.price,
-                  style: const TextStyle(fontSize: 17),
-                ),
-              ),
               const ListTile(
                 leading: Text(
-                  "Telefone",
+                  "Telefone:",
                   style: TextStyle(fontSize: 17),
                 ),
                 trailing: Text(
@@ -81,7 +80,7 @@ class RequestDetaiScreen extends StatelessWidget {
               ),
               const ListTile(
                 leading: Text(
-                  "Email",
+                  "Email:",
                   style: TextStyle(fontSize: 17),
                 ),
                 trailing: Text(
@@ -89,14 +88,46 @@ class RequestDetaiScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 17),
                 ),
               ),
-              const ListTile(
-                leading: Text(
-                  "Categoria",
+              ListTile(
+                leading: const Text(
+                  "Nome do produto:",
                   style: TextStyle(fontSize: 17),
                 ),
                 trailing: Text(
-                  "Portas",
+                  merchandiseModel.name!,
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
+              ListTile(
+                leading: const Text(
+                  "Preço:",
                   style: TextStyle(fontSize: 17),
+                ),
+                trailing: Text(
+                  merchandiseModel.price,
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
+              ListTile(
+                leading: const Text(
+                  "Data:",
+                  style: TextStyle(fontSize: 17),
+                ),
+                trailing: Text(
+                  TimesAgo.setDate(
+                    merchandiseModel.date.toDate(),
+                  ),
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
+              ListTile(
+                leading: const Text(
+                  "Categoria:",
+                  style: TextStyle(fontSize: 17),
+                ),
+                trailing: Text(
+                  merchandiseModel.category ?? "",
+                  style: const TextStyle(fontSize: 17),
                 ),
               ),
               const SizedBox(

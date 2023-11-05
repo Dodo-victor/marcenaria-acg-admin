@@ -9,7 +9,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'Resources/auth_admin_methods.dart';
 import 'repository/merchandise_repository.dart';
+import 'repository/request_repository.dart';
 
+final requestProvider = ChangeNotifierProvider(
+  (ref) => RequestRepository(),
+);
 final merchandiseProvider = ChangeNotifierProvider(
   (ref) => MercahndiseRepository(),
 );

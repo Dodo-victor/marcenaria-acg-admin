@@ -50,12 +50,6 @@ class MercahndiseRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  getTotalRequest() async {
-    final result = await FirestoreMethods().getRequestClient();
-    _totalRequest = result.length;
-    notifyListeners();
-  }
-
   deleteMerchandise({
     required String merchandiseDoc,
     required String merchandiseCollection,

@@ -111,6 +111,7 @@ class MerchandiseDetailsScreenState
   _updateMerchandiseData(
     context, {
     required Map<Object, Object?> data,
+    Map<Object, Object?>? requestData,
   }) async {
     setState(() {
       _isEditting = true;
@@ -119,7 +120,8 @@ class MerchandiseDetailsScreenState
         merchandiseDoc: widget.merchandiseDoc,
         merchandiseCollection: widget.merchandiseCollection,
         productId: widget.merchandiseModel.id,
-        data: data);
+        data: data,
+        requestData: requestData);
 
     await ref.read(merchandiseProvider).getProductData(
         merchandiseDoc: widget.merchandiseDoc,
@@ -177,20 +179,24 @@ class MerchandiseDetailsScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () {
-                      showSelectImageOption(
-                          context: context,
-                          selectFromGallery: () {
-                            Navigator.pop(context);
-                            _captureImage(
-                                source: ImageSource.gallery, context: context);
+                    onTap: _image != null
+                        ? null
+                        : () {
+                            showSelectImageOption(
+                                context: context,
+                                selectFromGallery: () {
+                                  Navigator.pop(context);
+                                  _captureImage(
+                                      source: ImageSource.gallery,
+                                      context: context);
+                                },
+                                captureFromcamera: () {
+                                  Navigator.pop(context);
+                                  _captureImage(
+                                      context: context,
+                                      source: ImageSource.camera);
+                                });
                           },
-                          captureFromcamera: () {
-                            Navigator.pop(context);
-                            _captureImage(
-                                context: context, source: ImageSource.camera);
-                          });
-                    },
                     child: AspectRatio(
                       aspectRatio: 10 / 7,
                       child: Container(
@@ -310,6 +316,9 @@ class MerchandiseDetailsScreenState
                         context,
                         data: {
                           "nome": _productnameController.text,
+                        },
+                        requestData: {
+                          "produtoNome": _productnameController.text,
                         },
                       );
                       setState(() {

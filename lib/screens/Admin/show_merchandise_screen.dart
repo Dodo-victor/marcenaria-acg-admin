@@ -82,37 +82,24 @@ class ShowMerchandiseScreenState extends ConsumerState<ShowMerchandiseScreen>
                             merchandiseCollection: e,
                           );
                         },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: ListView.builder(
-                                  itemCount: 1,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                          height: 260,
-                                        ),
-                                        Text(
-                                          "Sem Registro",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headlineMedium
-                                              ?.copyWith(color: Colors.black45),
-                                        ),
-                                      ],
-                                    );
-                                  },
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ListView(
+                            children: [
+                              SizedBox(
+                                height: 260,
+                              ),
+                              Center(
+                                child: Text(
+                                  "Sem Registro",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium
+                                      ?.copyWith(color: Colors.black45),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       );
                     } else {

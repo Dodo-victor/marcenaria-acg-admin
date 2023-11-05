@@ -5,6 +5,7 @@ class MerchandiseModel {
   final String? category;
   final String? descr;
   final String? woodType;
+  final String? productName;
   final date;
   final String size;
   //final bool hasRequest;
@@ -16,6 +17,7 @@ class MerchandiseModel {
       required this.id,
       this.category,
       this.date,
+      this.productName,
       // required this.hasRequest,
       required this.woodType,
       required this.size,
@@ -30,6 +32,7 @@ class MerchandiseModel {
       "nome": name,
       "tipoMadeira": woodType,
       "medida": size,
+      "produtoNome": productName,
       "descrição": descr,
       "data": date,
       // "temSolicitação": hasRequest,
@@ -39,15 +42,16 @@ class MerchandiseModel {
 
   factory MerchandiseModel.fromMap(map) {
     return MerchandiseModel(
-      price: map['preço'],
-      id: map['id'],
-      name: map['nome'],
-      woodType: map['tipoMadeira'],
-      size: map['medida'],
-      date: map['data'],
+      price: map['preço'] ?? "",
+      id: map['id'] ?? "",
+      name: map['nome'] ?? "",
+      woodType: map['tipoMadeira'] ?? "",
+      size: map['medida'] ?? "",
+      date: map['data'] ?? "",
+      productName: map['produtoNome'] ?? "",
       //  hasRequest: map['temSolicitação'] ?? "",
-      descr: map['descrição'],
-      photoUrl: map['foto'],
+      descr: map['descrição'] ?? "",
+      photoUrl: map['foto'] ?? "",
     );
   }
 }

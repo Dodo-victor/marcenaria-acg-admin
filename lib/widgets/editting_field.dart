@@ -38,31 +38,35 @@ class EdittingField extends StatelessWidget {
       ),
       child: loader
           ? const Loader()
-          : TextField(
-              controller: controller,
-              readOnly: isEditingName,
-              maxLines: maxLines,
-              minLines: minLines,
-              expands: isExpands,
-              decoration: InputDecoration(
-                  suffixIcon: !isEditingName
-                      ? isEditting
-                          ? const Loader()
-                          : InkWell(
-                              onTap: updateData,
-                              child: Icon(Icons.done_outlined,
-                                  color: isEditingName
-                                      ? Colors.grey.shade200
-                                      : null),
-                            )
-                      : InkWell(
-                          onTap: isEdittingFunc,
-                          child: Icon(Icons.edit,
-                              color:
-                                  isEditingName ? Colors.grey.shade200 : null),
-                        ),
-                  border: InputBorder.none,
-                  constraints: constraints),
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: TextField(
+                controller: controller,
+                readOnly: isEditingName,
+                maxLines: maxLines,
+                minLines: minLines,
+                expands: isExpands,
+                decoration: InputDecoration(
+                    suffixIcon: !isEditingName
+                        ? isEditting
+                            ? const Loader()
+                            : InkWell(
+                                onTap: updateData,
+                                child: Icon(Icons.done_outlined,
+                                    color: isEditingName
+                                        ? Colors.grey.shade200
+                                        : null),
+                              )
+                        : InkWell(
+                            onTap: isEdittingFunc,
+                            child: Icon(Icons.edit,
+                                color: isEditingName
+                                    ? Colors.grey.shade200
+                                    : null),
+                          ),
+                    border: InputBorder.none,
+                    constraints: constraints),
+              ),
             ),
     );
   }

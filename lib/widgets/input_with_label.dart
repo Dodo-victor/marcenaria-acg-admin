@@ -8,6 +8,8 @@ class InputWithLabel extends StatelessWidget {
   final String hintText;
   final BoxConstraints? constraints;
   final bool isExpands;
+  final int? maxLines;
+  final int? minLines;
   final String? Function(String?)? validator;
 
   const InputWithLabel({
@@ -18,6 +20,8 @@ class InputWithLabel extends StatelessWidget {
     this.isExpands = false,
     this.validator,
     this.controller,
+    this.maxLines = 1,
+    this.minLines = 1,
   }) : super(key: key);
 
   @override
@@ -33,6 +37,8 @@ class InputWithLabel extends StatelessWidget {
           height: 5,
         ),
         CustomInput(
+          maxLines: maxLines,
+          minLines: minLines,
           controller: controller,
           title: hintText,
           constraints: constraints,

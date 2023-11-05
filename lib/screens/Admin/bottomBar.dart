@@ -24,12 +24,18 @@ class _BottomBarState extends ConsumerState<BottomBar> {
 
   _initGetAllSum() async {
     await ref.read(merchandiseProvider).getTotalMerchandise();
-    await ref.read(merchandiseProvider).getTotalRequest();
+  }
+
+  _initGetAllRequest() async {
+    final requestRef = ref.read(requestProvider);
+    await requestRef.getTotalRquest();
+    await requestRef.getSumRequest();
   }
 
   @override
   void initState() {
     _initGetAllSum();
+    _initGetAllRequest();
     super.initState();
   }
 
