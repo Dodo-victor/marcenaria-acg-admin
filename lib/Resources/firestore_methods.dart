@@ -3,8 +3,10 @@
 import 'dart:typed_data';
 
 import 'package:acg_admin/Resources/storage_methods.dart';
+import 'package:acg_admin/models/mark_sell_model.dart';
 import 'package:acg_admin/utilis/global_variables.dart';
 import 'package:acg_admin/utilis/showSnackBar.dart';
+import 'package:acg_admin/utilis/show_product_sell_sucess.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,14 @@ import '../models/merchandise_model.dart';
 class FirestoreMethods {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   final StorageMethods _storage = StorageMethods();
+
+  Future<({int totalProducSell})> getProductSell() async {
+    final productSellData = await db.collection("vendas").get();
+
+    final productSellSize = productSellData.size;
+
+    return (totalProducSell: productSellSize);
+  }
 
   setAndCreateMercadory(
       {required String mercadoryDoc,
@@ -279,23 +289,71 @@ class FirestoreMethods {
             .collection("solicitação")
             .doc(docs["uid"])
             .collection("solicitação")
-            .where("idUsuario", isEqualTo: docs["uid"])
+            .doc(productId)
             .get();
 
-        if (requestSize.size != 0) {
-          for (var docs in requestSize.docs) {
-            await db
-                .collection("solicitação")
-                .doc(docs["idUsuario"])
-                .collection("solicitação")
-                .doc(productId)
-                .update(requestData ?? data);
-          }
+        if (requestSize.exists) {
+          await db
+              .collection("solicitação")
+              .doc(docs["uid"])
+              .collection("solicitação")
+              .doc(productId)
+              .update(requestData ?? data);
         }
       }
     } catch (e) {
       showSnackBar(
-          content: "Ocorreu um erro, tente novament!", context: context);
+          content: "Ocorreu um erro, tente novamente!", context: context);
+    }
+  }
+
+  deleteRequestClient(
+      {required String userId, required String productId, context}) async {
+    try {
+      await db
+          .collection("solicitação")
+          .doc(userId)
+          .collection("solicitação")
+          .doc(productId)
+          .delete();
+    } catch (e) {
+      showSnackBar(
+          content: "Ocorreu um erro tente novamente: $e", context: context);
+    }
+  }
+
+  markProductSell(
+      {required String category,
+      required String productId,
+      required MarkSellProduct markSellProduct,
+      required String userUid,
+      required context}) async {
+    await deleteRequestClient(userId: userUid, productId: productId);
+
+    final productSellData =
+        await db.collection("vendas").where("id", isEqualTo: productId).get();
+
+    if (productSellData.size != 0) {
+      showProductSellSuccess(
+          context: context,
+          onEvent: Container(
+            height: 65,
+            width: 65,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.red,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Icon(
+              Icons.done,
+              color: Colors.grey.shade100,
+              size: 35,
+            ),
+          ),
+          title: "Ups",
+          content: "Já marcou este produto com. vendido.");
+    } else {
+      await db.collection("vendas").doc(productId).set(markSellProduct.toMap());
     }
   }
 }

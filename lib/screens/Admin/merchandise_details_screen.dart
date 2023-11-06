@@ -12,7 +12,6 @@ import 'package:acg_admin/utilis/showSnackBar.dart';
 import 'package:acg_admin/utilis/show_select_image_options.dart';
 import 'package:acg_admin/widgets/loader.dart';
 import 'package:acg_admin/widgets/submit_button.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -433,7 +432,7 @@ class MerchandiseDetailsScreenState
                     height: 10,
                   ),
                   Text(
-                    "Descrição *",
+                    "Descrição*",
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -453,7 +452,7 @@ class MerchandiseDetailsScreenState
                     updateData: () async {
                       await _updateMerchandiseData(
                         context,
-                        data: {"medida": _sizeController.text},
+                        data: {"descrição": _sizeController.text},
                       );
                       setState(() {
                         _isEditingDescr = !_isEditingDescr;

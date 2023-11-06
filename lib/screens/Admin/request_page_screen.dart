@@ -12,7 +12,7 @@ class RequestPageScreen extends ConsumerWidget {
     final requestData = await FirestoreMethods().getRequestClient();
 
     return requestData;
-    ;
+    
   });
 
   @override

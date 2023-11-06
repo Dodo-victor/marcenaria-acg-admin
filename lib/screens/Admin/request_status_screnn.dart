@@ -119,7 +119,7 @@ class RequestStatusScrennState extends ConsumerState<RequestStatusScrenn>
                                             builder: (context) =>
                                                 RequestDetaiScreen(
                                                     merchandiseModel:
-                                                        merchandise),
+                                                        merchandise, userUid: requestData["idUsuario"],),
                                           ));
                                     },
                                     child: RequestStatusCard(

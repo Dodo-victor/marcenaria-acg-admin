@@ -48,6 +48,7 @@ class MerchandiseModel {
       woodType: map['tipoMadeira'] ?? "",
       size: map['medida'] ?? "",
       date: map['data'] ?? "",
+      //category: map['categoria'] ?? "" ,
       productName: map['produtoNome'] ?? "",
       //  hasRequest: map['temSolicitação'] ?? "",
       descr: map['descrição'] ?? "",

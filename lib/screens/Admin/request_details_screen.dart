@@ -1,13 +1,26 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:acg_admin/Resources/firestore_methods.dart';
 import 'package:acg_admin/Resources/times_ago_methods..dart';
+import 'package:acg_admin/models/mark_sell_model.dart';
 import 'package:acg_admin/models/merchandise_model.dart';
+import 'package:acg_admin/utilis/show_product_sell_sucess.dart';
 import 'package:acg_admin/widgets/submit_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RequestDetaiScreen extends StatelessWidget {
+class RequestDetaiScreen extends StatefulWidget {
+  final String? userUid;
   final MerchandiseModel merchandiseModel;
-  const RequestDetaiScreen({super.key, required this.merchandiseModel});
+  const RequestDetaiScreen({super.key, required this.merchandiseModel,  this.userUid});
 
+  @override
+  State<RequestDetaiScreen> createState() => _RequestDetaiScreenState();
+}
+
+bool _isMarking = false;
+
+class _RequestDetaiScreenState extends State<RequestDetaiScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +58,7 @@ class RequestDetaiScreen extends StatelessWidget {
                         bottomRight: Radius.circular(15)),
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(merchandiseModel.photoUrl)),
+                        image: NetworkImage(widget.merchandiseModel.photoUrl)),
 
                     //color: Colors.gr
                   ),
@@ -64,7 +77,7 @@ class RequestDetaiScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 17),
                 ),
                 trailing: Text(
-                  merchandiseModel.name ?? "Victor Manuel",
+                  widget.merchandiseModel.name ?? "Victor Manuel",
                   style: const TextStyle(fontSize: 17),
                 ),
               ),
@@ -94,7 +107,7 @@ class RequestDetaiScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 17),
                 ),
                 trailing: Text(
-                  merchandiseModel.name!,
+                  widget.merchandiseModel.name!,
                   style: const TextStyle(fontSize: 17),
                 ),
               ),
@@ -104,7 +117,7 @@ class RequestDetaiScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 17),
                 ),
                 trailing: Text(
-                  merchandiseModel.price,
+                  widget.merchandiseModel.price,
                   style: const TextStyle(fontSize: 17),
                 ),
               ),
@@ -115,7 +128,7 @@ class RequestDetaiScreen extends StatelessWidget {
                 ),
                 trailing: Text(
                   TimesAgo.setDate(
-                    merchandiseModel.date.toDate(),
+                    widget.merchandiseModel.date.toDate(),
                   ),
                   style: const TextStyle(fontSize: 17),
                 ),
@@ -126,7 +139,7 @@ class RequestDetaiScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 17),
                 ),
                 trailing: Text(
-                  merchandiseModel.category ?? "",
+                  widget.merchandiseModel.category ?? "",
                   style: const TextStyle(fontSize: 17),
                 ),
               ),
@@ -137,7 +150,30 @@ class RequestDetaiScreen extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              const SubmitButton(
+              SubmitButton(
+                isLoading: _isMarking,
+                function: () async {
+                  MarkSellProduct markSellProduct = MarkSellProduct(
+                      merchandiseModel: widget.merchandiseModel);
+
+                  setState(() {
+                    _isMarking = true;
+                  });
+
+                  await FirestoreMethods().markProductSell(
+                    userUid: widget.userUid!,
+                    category: markSellProduct.merchandiseModel.category!,
+                    productId: markSellProduct.merchandiseModel.id,
+                    markSellProduct: markSellProduct,
+                    context: context,
+                  );
+
+                  showProductSellSuccess(context: context);
+
+                  setState(() {
+                    _isMarking = false;
+                  });
+                },
                 title: "Marcar como vendido",
                 color: Colors.greenAccent,
               )

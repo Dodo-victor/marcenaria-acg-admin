@@ -32,10 +32,17 @@ class _BottomBarState extends ConsumerState<BottomBar> {
     await requestRef.getSumRequest();
   }
 
+  _initGetAllProductSell() async {
+    final productSellRef = ref.read(productSellProvider);
+
+    productSellRef.getSizeProductSell();
+  }
+
   @override
   void initState() {
     _initGetAllSum();
     _initGetAllRequest();
+    _initGetAllProductSell();
     super.initState();
   }
 
@@ -46,6 +53,8 @@ class _BottomBarState extends ConsumerState<BottomBar> {
       bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: ColorsApp.primaryTheme,
           onTap: _navigateToPage,
+          iconSize: 30,
+          unselectedItemColor: Colors.grey.shade600,
           currentIndex: _currentPage,
           items: const [
             BottomNavigationBarItem(
@@ -54,16 +63,17 @@ class _BottomBarState extends ConsumerState<BottomBar> {
                 CupertinoIcons.waveform_path_ecg,
               ),
             ),
-            BottomNavigationBarItem(
+         /*    BottomNavigationBarItem(
               label: "Solicitações",
               icon: Icon(
                 Icons.shopping_cart_checkout,
               ),
-            ),
+            ), */
             BottomNavigationBarItem(
-              label: "Perfil",
+              label: "Admin",
               icon: Icon(
-                Icons.settings,
+                Icons.admin_panel_settings,
+
               ),
             ),
           ]),

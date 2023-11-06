@@ -44,6 +44,7 @@ class AuthAdminMethods {
         }
         res = true;
       }
+       
     } on FirebaseAuthException catch (e) {
       res = false;
       showSnackBar(

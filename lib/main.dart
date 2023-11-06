@@ -1,3 +1,4 @@
+import 'package:acg_admin/Repository/product_sell_repository.dart';
 import 'package:acg_admin/firebase_options.dart';
 import 'package:acg_admin/screens/Admin/bottomBar.dart';
 import 'package:acg_admin/screens/Auth/auth_admin.dart';
@@ -16,6 +17,9 @@ final requestProvider = ChangeNotifierProvider(
 );
 final merchandiseProvider = ChangeNotifierProvider(
   (ref) => MercahndiseRepository(),
+);
+final productSellProvider = ChangeNotifierProvider(
+  (ref) => ProductSellRepository(),
 );
 
 void main() async {
@@ -52,7 +56,7 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         appBarTheme: AppBarTheme(backgroundColor: ColorsApp.primaryTheme),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: ColorsApp.primaryTheme),
         useMaterial3: true,
       ),
       home: StreamBuilder<dynamic>(
