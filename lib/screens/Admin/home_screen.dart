@@ -50,10 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
             return RefreshIndicator(
               color: ColorsApp.primaryTheme,
               onRefresh: () async {
-                GlobalVariables.category.map((e) async {
-                  return merchandiseData.refreshProductData(
+             await   GlobalVariables.category.map((e) async {
+                  return await merchandiseData.refreshProductData(
                       merchandiseDoc: e, merchandiseCollection: e);
                 });
+
+
 
                 await requestData.getTotalRquest();
 

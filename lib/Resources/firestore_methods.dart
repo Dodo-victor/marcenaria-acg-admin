@@ -43,6 +43,7 @@ class FirestoreMethods {
       photoUrl: photoUrl,
       id: uid,
       date: DateTime.now(),
+      category: merchandiseModel.category,
       //   hasRequest: false,
       size: merchandiseModel.size,
       woodType: merchandiseModel.woodType,
@@ -211,6 +212,8 @@ class FirestoreMethods {
     return userData;
   }
 
+
+
   /* Future<({String totalSize})> */
   Future<Iterable<Future<List<dynamic>>>> getTotalRequest() async {
     final userData = await getAllUser();
@@ -356,5 +359,23 @@ class FirestoreMethods {
       await db.collection("vendas").doc(productId).set(markSellProduct.toMap());
       showProductSellSuccess(context: context);
     }
+  }
+
+  settingsRemote({
+    required String settingsType,
+    required Map<String, dynamic> data,
+    required context,
+  }) async {
+    try {
+      await db.collection("definições").doc(settingsType).set(data);
+    } catch (e) {
+      showSnackBar(
+          content: "Ocorreu um erro desconhecido, tente novamente",
+          context: context);
+    }
+  }
+
+  getAllContacts() async {
+    await  FirebaseFirestore.instance.collection("definições").doc("contactos").get();
   }
 }

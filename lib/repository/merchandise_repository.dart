@@ -74,6 +74,7 @@ class MercahndiseRepository extends ChangeNotifier {
         .get();
 
     await getTotalMerchandise();
+
     notifyListeners();
   }
 
