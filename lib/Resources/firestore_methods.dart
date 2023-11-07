@@ -350,10 +350,11 @@ class FirestoreMethods {
               size: 35,
             ),
           ),
-          title: "Ups",
-          content: "Já marcou este produto com. vendido.");
+          title: "Ups!",
+          content: "Já marcou este produto como vendido.");
     } else {
       await db.collection("vendas").doc(productId).set(markSellProduct.toMap());
+      showProductSellSuccess(context: context);
     }
   }
 }

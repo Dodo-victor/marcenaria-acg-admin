@@ -6,9 +6,21 @@ import 'package:flutter/material.dart';
 class GlobalVariables {
   static final List<Widget> items = [
     const HomeScreen(),
-   // RequestPageScreen(),
+    // RequestPageScreen(),
     const ProfileScreen(),
   ];
+
+  static greetings() {
+    final currentDate = DateTime.now();
+
+    if (currentDate.hour >= 18) {
+      return "Boa Noite";
+    } else if (currentDate.hour < 12) {
+      return "Bom Dia";
+    } else if (currentDate.hour >= 12) {
+      return "Boa Tarde";
+    }
+  }
 
   static final List<String> category = [
     "Portas",

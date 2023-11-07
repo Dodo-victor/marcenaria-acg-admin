@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Olá ${FirebaseAuth.instance.currentUser!.displayName}",
+            "${GlobalVariables.greetings()}, ${FirebaseAuth.instance.currentUser!.displayName} ",
           ),
           actions: [
             IconButton(
@@ -50,11 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
             return RefreshIndicator(
               color: ColorsApp.primaryTheme,
               onRefresh: () async {
-               GlobalVariables.category.map((e) async {
-               return  merchandiseData.refreshProductData(merchandiseDoc: e, merchandiseCollection: e);
-               });
+                GlobalVariables.category.map((e) async {
+                  return merchandiseData.refreshProductData(
+                      merchandiseDoc: e, merchandiseCollection: e);
+                });
 
-              
                 await requestData.getTotalRquest();
 
                 await productSellData.refreshProductSellData();

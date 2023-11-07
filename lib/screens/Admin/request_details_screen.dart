@@ -4,6 +4,7 @@ import 'package:acg_admin/Resources/firestore_methods.dart';
 import 'package:acg_admin/Resources/times_ago_methods..dart';
 import 'package:acg_admin/models/mark_sell_model.dart';
 import 'package:acg_admin/models/merchandise_model.dart';
+import 'package:acg_admin/utilis/showSnackBar.dart';
 import 'package:acg_admin/utilis/show_product_sell_sucess.dart';
 import 'package:acg_admin/widgets/submit_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,8 @@ import 'package:flutter/material.dart';
 class RequestDetaiScreen extends StatefulWidget {
   final String? userUid;
   final MerchandiseModel merchandiseModel;
-  const RequestDetaiScreen({super.key, required this.merchandiseModel,  this.userUid});
+  const RequestDetaiScreen(
+      {super.key, required this.merchandiseModel, this.userUid});
 
   @override
   State<RequestDetaiScreen> createState() => _RequestDetaiScreenState();
@@ -152,27 +154,36 @@ class _RequestDetaiScreenState extends State<RequestDetaiScreen> {
               ),
               SubmitButton(
                 isLoading: _isMarking,
+                // loaderColor: Colors.grey.shade700,
                 function: () async {
-                  MarkSellProduct markSellProduct = MarkSellProduct(
-                      merchandiseModel: widget.merchandiseModel);
+                  try {
+                    MarkSellProduct markSellProduct = MarkSellProduct(
+                        merchandiseModel: widget.merchandiseModel);
 
-                  setState(() {
-                    _isMarking = true;
-                  });
+                    setState(() {
+                      _isMarking = true;
+                    });
 
-                  await FirestoreMethods().markProductSell(
-                    userUid: widget.userUid!,
-                    category: markSellProduct.merchandiseModel.category!,
-                    productId: markSellProduct.merchandiseModel.id,
-                    markSellProduct: markSellProduct,
-                    context: context,
-                  );
+                    await FirestoreMethods().markProductSell(
+                      userUid: widget.userUid ?? "",
+                      category: markSellProduct.merchandiseModel.category!,
+                      productId: markSellProduct.merchandiseModel.id,
+                      markSellProduct: markSellProduct,
+                      context: context,
+                    );
 
-                  showProductSellSuccess(context: context);
-
-                  setState(() {
-                    _isMarking = false;
-                  });
+                    setState(() {
+                      _isMarking = false;
+                    });
+                  } catch (e) {
+                    setState(() {
+                      _isMarking = false;
+                    });
+                    showSnackBar(
+                        content:
+                            "Ocorreu um erro desconhecido por favor tente novamente!",
+                        context: context);
+                  }
                 },
                 title: "Marcar como vendido",
                 color: Colors.greenAccent,

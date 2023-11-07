@@ -41,10 +41,11 @@ class SubmitButton extends StatelessWidget {
             ? const Loader()
             : Text(
                 title,
-                style: titleStyle ?? TextStyle(
-                  color: Colors.grey.shade200,
-                  fontSize: 20,
-                ),
+                style: titleStyle ??
+                    TextStyle(
+                      color: Colors.grey.shade200,
+                      fontSize: 20,
+                    ),
               ),
       ),
     );

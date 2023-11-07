@@ -39,14 +39,14 @@ showProductSellSuccess(
                   height: 10,
                 ),
                 Text(
-                  "Parabéns",
+                  title ?? "Parabéns",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(
                   height: 8,
                 ),
                 Text(
-                  "Você marcou este produto como vendido",
+                  content ?? "Você marcou este produto como vendido",
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: Colors.black45,
                       ),

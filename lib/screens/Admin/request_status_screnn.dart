@@ -74,7 +74,7 @@ class RequestStatusScrennState extends ConsumerState<RequestStatusScrenn>
                       ? RefreshIndicator(
                           color: ColorsApp.primaryTheme,
                           onRefresh: () async {
-                            await Future.delayed(const Duration(seconds: 5));
+                            await requestData.getSumRequest();
                           },
                           child: Align(
                             alignment: Alignment.bottomCenter,
@@ -99,39 +99,49 @@ class RequestStatusScrennState extends ConsumerState<RequestStatusScrenn>
                       : Column(
                           children: [
                             Expanded(
-                              child: ListView.separated(
-                                itemCount: snapData!.length,
-                                separatorBuilder:
-                                    (BuildContext context, int index) {
-                                  return const Divider();
+                              child: RefreshIndicator(
+                                color: ColorsApp.primaryTheme,
+                                onRefresh: () async {
+                                  await requestData.getSumRequest();
+                                  await requestData.getTotalRquest();
                                 },
-                                itemBuilder: (BuildContext context, int index) {
-                                  final requestData = snapData[index];
+                                child: ListView.separated(
+                                  itemCount: snapData!.length,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return const Divider();
+                                  },
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final requestData = snapData[index];
 
-                                  final MerchandiseModel merchandise =
-                                      MerchandiseModel.fromMap(requestData);
+                                    final MerchandiseModel merchandise =
+                                        MerchandiseModel.fromMap(requestData);
 
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                RequestDetaiScreen(
-                                                    merchandiseModel:
-                                                        merchandise, userUid: requestData["idUsuario"],),
-                                          ));
-                                    },
-                                    child: RequestStatusCard(
-                                      clientName: merchandise.name!,
-                                      price: merchandise.price,
-                                      productName: merchandise.productName,
-                                      date: TimesAgo.setDate(
-                                        merchandise.date.toDate(),
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RequestDetaiScreen(
+                                                merchandiseModel: merchandise,
+                                                userUid:
+                                                    requestData["idUsuario"],
+                                              ),
+                                            ));
+                                      },
+                                      child: RequestStatusCard(
+                                        clientName: merchandise.name!,
+                                        price: merchandise.price,
+                                        productName: merchandise.productName,
+                                        date: TimesAgo.setDate(
+                                          merchandise.date.toDate(),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ],
