@@ -87,6 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       if (snap.hasData) {
                         final snapData = snap.data;
                         final length = snapData.docs.length;
+                        print(length);
                         return snapData.docs.isEmpty
                             ? Column(
                                 children: [
@@ -109,48 +110,61 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   )
                                 ],
                               )
-                            : ListView.builder(
-                                itemCount: length,
-                                itemBuilder: (context, index) {
-                                  final contactData = snapData[index];
-                                  return Row(
-                                    children: [
-                                      EdittingField(
-                                        controller: _contactController,
+                            : Expanded(
+                              child: SizedBox(
 
-                                        isEdittingFunc: () async {
-                                          final _contact = {
-                                            "numeroDeTelefone":
-                                                _contactController.text
-                                          };
+                                child: ListView.builder(
+                                    itemCount: length,
+                                    itemBuilder: (context, index) {
+                                      final contactData = snapData.docs[index];
+                                      return Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 120,
+                                                child: EdittingField(
 
-                                          await FirestoreMethods()
-                                              .settingsRemote(
-                                                  settingsType: "contactos",
-                                                  data: _contact,
-                                                  context: context);
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _isAdding = false;
-                                          });
-                                        },
-                                        child: const Text(
-                                          "X",
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            color: Colors.black45,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                });
+                                                  controller: _contactController,
+
+                                                  isEdittingFunc: () async {
+                                                    final _contact = {
+                                                      "numeroDeTelefone":
+                                                          _contactController.text
+                                                    };
+
+                                                    await FirestoreMethods()
+                                                        .settingsRemote(
+                                                            settingsType: "contactos",
+                                                            data: _contact,
+                                                            context: context);
+                                                  },
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _isAdding = false;
+                                                  });
+                                                },
+                                                child: const Text(
+                                                  "X",
+                                                  style: TextStyle(
+                                                    fontSize: 17,
+                                                    color: Colors.black45,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      );
+                                    }),
+                              ),
+                            );
                       }
 
                       return const Center(
