@@ -375,7 +375,7 @@ class FirestoreMethods {
     }
   }
 
-  getAllContacts() async {
-    return await  FirebaseFirestore.instance.collection("definições").get();
+  getAllContacts()  {
+    return   FirebaseFirestore.instance.collection("definições").snapshots();
   }
 }

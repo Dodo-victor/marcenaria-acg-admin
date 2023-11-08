@@ -1,3 +1,4 @@
+import 'package:acg_admin/Repository/contact_repository.dart';
 import 'package:acg_admin/Repository/product_sell_repository.dart';
 import 'package:acg_admin/firebase_options.dart';
 import 'package:acg_admin/screens/Admin/bottomBar.dart';
@@ -20,6 +21,9 @@ final merchandiseProvider = ChangeNotifierProvider(
 );
 final productSellProvider = ChangeNotifierProvider(
   (ref) => ProductSellRepository(),
+);
+final addContactProvider = ChangeNotifierProvider(
+  (ref) => ContactRepositoy(),
 );
 
 void main() async {
