@@ -2,6 +2,7 @@ import 'package:acg_admin/main.dart';
 import 'package:acg_admin/screens/Admin/add_merchandise_screen.dart';
 import 'package:acg_admin/screens/Admin/request_status_screnn.dart';
 import 'package:acg_admin/screens/Admin/show_merchandise_screen.dart';
+import 'package:acg_admin/screens/Admin/show_product_sell.dart';
 import 'package:acg_admin/utilis/colors.dart';
 import 'package:acg_admin/utilis/global_variables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,12 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
             return RefreshIndicator(
               color: ColorsApp.primaryTheme,
               onRefresh: () async {
-             await   GlobalVariables.category.map((e) async {
+                await GlobalVariables.category.map((e) async {
                   return await merchandiseData.refreshProductData(
                       merchandiseDoc: e, merchandiseCollection: e);
                 });
-
-
 
                 await requestData.getTotalRquest();
 
@@ -105,13 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           //  border: Border(right: BorderSide( : Colors.grey)),
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: ColorsApp.googleSignInColor),
+                                          color: Colors.grey.shade300),
                                       child: Column(
                                         children: [
                                           Text(
                                             merchandiseData.totalMercahncdise
-                                                    .toString() ??
-                                                "350",
+                                                .toString(),
                                             style: TextStyle(
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.bold),
@@ -142,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       width: 120,
                                       padding: const EdgeInsets.all(15),
                                       decoration: BoxDecoration(
-                                        color: ColorsApp.googleSignInColor,
+                                        color: Colors.grey.shade300,
                                         borderRadius: BorderRadius.circular(10),
                                         //border: Border(right: BorderSide(color: Colors.grey),),
                                       ),
@@ -168,30 +166,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  Container(
-                                    width: 120,
-                                    padding: const EdgeInsets.all(15),
-                                    decoration: BoxDecoration(
-                                      color: ColorsApp.googleSignInColor,
-                                      borderRadius: BorderRadius.circular(10),
-                                      //border: Border(right: BorderSide(color: Colors.grey),),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          productSellData.totalSize.toString(),
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          "Vendas",
-                                          textAlign: TextAlign.center,
-                                        )
-                                      ],
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ShowProductSell(),
+                                          ));
+                                    },
+                                    child: Container(
+                                      width: 120,
+                                      padding: const EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade300,
+                                        borderRadius: BorderRadius.circular(10),
+                                        //border: Border(right: BorderSide(color: Colors.grey),),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            productSellData.totalSize
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            "Vendas",
+                                            textAlign: TextAlign.center,
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(

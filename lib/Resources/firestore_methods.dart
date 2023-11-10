@@ -212,8 +212,6 @@ class FirestoreMethods {
     return userData;
   }
 
-
-
   /* Future<({String totalSize})> */
   Future<Iterable<Future<List<dynamic>>>> getTotalRequest() async {
     final userData = await getAllUser();
@@ -362,12 +360,20 @@ class FirestoreMethods {
   }
 
   settingsRemote({
-    required String settingsType,
-    required Map<String, dynamic> data,
+    String? settingsType,
+    Map<String, dynamic>? data,
+    String? phoneMumber,
     required context,
   }) async {
     try {
-      await db.collection("definições").doc(settingsType).set(data);
+      final id = const Uuid().v4();
+      final contact = {"numeroDeTelefone": phoneMumber, "id": id};
+      await db
+          .collection("definições")
+          .doc(settingsType ?? "contactos")
+          .collection("contacto")
+          .doc(id)
+          .set(data ?? contact);
     } catch (e) {
       showSnackBar(
           content: "Ocorreu um erro desconhecido, tente novamente",
@@ -375,7 +381,17 @@ class FirestoreMethods {
     }
   }
 
-  getAllContacts()  {
-    return   FirebaseFirestore.instance.collection("definições").snapshots();
+  getAllMercahndiseSell() async {
+    final sellData =
+        await db.collection("vendas").orderBy("data", descending: true).get();
+    return sellData;
+  }
+
+  getAllContacts() {
+    return FirebaseFirestore.instance
+        .collection("definições")
+        .doc("contactos")
+        .collection("contacto")
+        .snapshots();
   }
 }

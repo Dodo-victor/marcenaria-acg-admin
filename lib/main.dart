@@ -61,6 +61,9 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         appBarTheme: AppBarTheme(backgroundColor: ColorsApp.primaryTheme),
         colorScheme: ColorScheme.fromSeed(seedColor: ColorsApp.primaryTheme),
+        scaffoldBackgroundColor: Colors.grey.shade100,
+        bottomNavigationBarTheme:
+            BottomNavigationBarThemeData(backgroundColor: Colors.grey.shade200),
         useMaterial3: true,
       ),
       home: StreamBuilder<dynamic>(

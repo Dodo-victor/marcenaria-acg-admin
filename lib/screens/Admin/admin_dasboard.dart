@@ -53,6 +53,7 @@ class AdminDashboard extends StatelessWidget {
               height: 20,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SettingsCard(
                   function: () => Navigator.push(
@@ -77,6 +78,17 @@ class AdminDashboard extends StatelessWidget {
                   icon: Icons.store_rounded,
                 ),
               ],
+            ),
+            const Divider(),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius:
+                    BorderRadiusDirectional.only(topEnd: Radius.circular(10)),
+              ),
             ),
           ],
         ),

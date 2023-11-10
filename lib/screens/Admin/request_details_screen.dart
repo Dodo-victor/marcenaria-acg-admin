@@ -12,9 +12,13 @@ import 'package:flutter/material.dart';
 
 class RequestDetaiScreen extends StatefulWidget {
   final String? userUid;
+  final bool isSell;
   final MerchandiseModel merchandiseModel;
   const RequestDetaiScreen(
-      {super.key, required this.merchandiseModel, this.userUid});
+      {super.key,
+      required this.merchandiseModel,
+      this.userUid,
+      this.isSell = false});
 
   @override
   State<RequestDetaiScreen> createState() => _RequestDetaiScreenState();
@@ -152,42 +156,73 @@ class _RequestDetaiScreenState extends State<RequestDetaiScreen> {
               const SizedBox(
                 height: 5,
               ),
-              SubmitButton(
-                isLoading: _isMarking,
-                // loaderColor: Colors.grey.shade700,
-                function: () async {
-                  try {
-                    MarkSellProduct markSellProduct = MarkSellProduct(
-                        merchandiseModel: widget.merchandiseModel);
+              widget.isSell
+                  ? Container(
+                      alignment: Alignment.center,
+                      height: 50,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Vendido",
+                            style: TextStyle(
+                              color: Colors.grey.shade200,
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Icon(
+                            Icons.done_outlined,
+                            color: Colors.grey.shade100,
+                            size: 30,
+                          )
+                        ],
+                      ),
+                    )
+                  : SubmitButton(
+                      isLoading: _isMarking,
+                      // loaderColor: Colors.grey.shade700,
+                      function: () async {
+                        try {
+                          MarkSellProduct markSellProduct = MarkSellProduct(
+                              merchandiseModel: widget.merchandiseModel);
 
-                    setState(() {
-                      _isMarking = true;
-                    });
+                          setState(() {
+                            _isMarking = true;
+                          });
 
-                    await FirestoreMethods().markProductSell(
-                      userUid: widget.userUid ?? "",
-                      category: markSellProduct.merchandiseModel.category!,
-                      productId: markSellProduct.merchandiseModel.id,
-                      markSellProduct: markSellProduct,
-                      context: context,
-                    );
+                          await FirestoreMethods().markProductSell(
+                            userUid: widget.userUid ?? "",
+                            category:
+                                markSellProduct.merchandiseModel.category!,
+                            productId: markSellProduct.merchandiseModel.id,
+                            markSellProduct: markSellProduct,
+                            context: context,
+                          );
 
-                    setState(() {
-                      _isMarking = false;
-                    });
-                  } catch (e) {
-                    setState(() {
-                      _isMarking = false;
-                    });
-                    showSnackBar(
-                        content:
-                            "Ocorreu um erro desconhecido por favor tente novamente!",
-                        context: context);
-                  }
-                },
-                title: "Marcar como vendido",
-                color: Colors.greenAccent,
-              )
+                          setState(() {
+                            _isMarking = false;
+                          });
+                        } catch (e) {
+                          setState(() {
+                            _isMarking = false;
+                          });
+                          showSnackBar(
+                              content:
+                                  "Ocorreu um erro desconhecido por favor tente novamente!",
+                              context: context);
+                        }
+                      },
+                      title: "Marcar como vendido",
+                      color: Colors.greenAccent,
+                    )
             ],
           ),
         ),
