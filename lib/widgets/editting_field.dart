@@ -37,7 +37,7 @@ class EdittingField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget _inputWithInitialValue() {
-      if (withInitialValue) {
+      if (!withInitialValue) {
         return TextFormField(
           controller: controller,
           readOnly: isEditingName,

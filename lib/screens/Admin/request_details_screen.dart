@@ -201,7 +201,7 @@ class _RequestDetaiScreenState extends State<RequestDetaiScreen> {
                           await FirestoreMethods().markProductSell(
                             userUid: widget.userUid ?? "",
                             category:
-                                markSellProduct.merchandiseModel.category!,
+                                markSellProduct.merchandiseModel.category ?? '',
                             productId: markSellProduct.merchandiseModel.id,
                             markSellProduct: markSellProduct,
                             context: context,
@@ -216,7 +216,7 @@ class _RequestDetaiScreenState extends State<RequestDetaiScreen> {
                           });
                           showSnackBar(
                               content:
-                                  "Ocorreu um erro desconhecido por favor tente novamente!",
+                                  "Ocorreu um erro desconhecido por favor tente novamente! $e",
                               context: context);
                         }
                       },

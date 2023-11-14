@@ -31,5 +31,6 @@ class GlobalVariables {
     "Cadeiras",
     "Armários",
     "Camas",
+    // "Livreiro",
   ];
 }

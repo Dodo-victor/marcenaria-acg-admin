@@ -392,6 +392,7 @@ class FirestoreMethods {
         .collection("definições")
         .doc("contactos")
         .collection("contacto")
+        .orderBy("id", descending: true)
         .snapshots();
   }
 }

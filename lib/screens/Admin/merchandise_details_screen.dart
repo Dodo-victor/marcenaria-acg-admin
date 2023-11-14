@@ -83,6 +83,7 @@ class MerchandiseDetailsScreenState
     _woodController.text = merchandiseProv.merchandiseModel!.woodType!;
     _sizeController.text = merchandiseProv.merchandiseModel!.size;
     _descController.text = merchandiseProv.merchandiseModel!.descr!;
+    print(_priceController.text);
   }
 
   _captureImage(
@@ -100,13 +101,13 @@ class MerchandiseDetailsScreenState
     super.initState();
   }
 
-  @override
+/*   @override
   void dispose() {
     _productnameController.dispose();
     _priceController.dispose();
     super.dispose();
   }
-
+ */
   _updateMerchandiseData(
     context, {
     required Map<Object, Object?> data,
@@ -305,6 +306,7 @@ class MerchandiseDetailsScreenState
                     height: 5,
                   ),
                   EdittingField(
+                    //withInitialValue: true,
                     controller: _productnameController,
                     isEditingName: _isEditingName,
                     isEditting: _isEditting,

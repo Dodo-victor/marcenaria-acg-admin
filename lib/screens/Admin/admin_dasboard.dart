@@ -1,4 +1,6 @@
 import 'package:acg_admin/screens/Admin/settings_screen.dart';
+import 'package:acg_admin/screens/Admin/statisc_screen.dart';
+import 'package:acg_admin/widgets/submit_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,87 +14,158 @@ class AdminDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, 80),
-        child: Container(
-          color: ColorsApp.primaryTheme,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 50,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "Olá, ${FirebaseAuth.instance.currentUser!.displayName} ",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundImage: NetworkImage(
-                          FirebaseAuth.instance.currentUser!.photoURL!),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size(double.infinity, 80),
+          child: Container(
+            color: ColorsApp.primaryTheme,
+            child: Column(
               children: [
-                SettingsCard(
-                  function: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SettingsScreen())),
-                  title: "Adicionar número",
-                  icon: Icons.phone,
-                ),
                 const SizedBox(
-                  width: 8,
+                  height: 50,
                 ),
-                SettingsCard(
-                  function: () async {
-                    final _contact = {"numeroDeTelefone": "921750554"};
-                    await FirestoreMethods().settingsRemote(
-                        settingsType: "contactos",
-                        data: _contact,
-                        context: context);
-                  },
-                  title: "Editar Mercadoria",
-                  icon: Icons.store_rounded,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Olá, ${FirebaseAuth.instance.currentUser!.displayName} ",
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(
+                            FirebaseAuth.instance.currentUser!.photoURL!),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
-            const Divider(),
-            SizedBox(
-              height: 10,
+          ),
+        ),
+        body: ListView(
+          children: [
+            const SizedBox(
+              height: 5,
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius:
-                    BorderRadiusDirectional.only(topEnd: Radius.circular(10)),
+            ListTile(
+              autofocus: true,
+              horizontalTitleGap: 10,
+              hoverColor: ColorsApp.primaryTheme,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsScreen(),
+                  ),
+                );
+              },
+              focusColor: ColorsApp.primaryTheme,
+              leading: const Text(
+                "Adicionar contacto",
+              ),
+              leadingAndTrailingTextStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 17),
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+                //  color: ColorsApp.primaryTheme,
               ),
             ),
+            const Divider(),
+            ListTile(
+              autofocus: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              horizontalTitleGap: 10,
+              hoverColor: ColorsApp.primaryTheme,
+              onTap: () async {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog.adaptive(
+                        title: const Text("Sair"),
+                        content: const SizedBox(
+                          height: 80,
+                          child: Column(
+                            children: [
+                              Text("Tens a certeza que deseja saír?"),
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          SubmitButton(
+                            title: "Não",
+                            height: 50,
+                            width: 80,
+                            function: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          SubmitButton(
+                            title: "Sim",
+                            width: 80,
+                            function: () async {
+                              await FirebaseAuth.instance.signOut();
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              },
+              focusColor: ColorsApp.primaryTheme,
+              leading: const Text(
+                "Saír",
+              ),
+              leadingAndTrailingTextStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 17),
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+                //  color: ColorsApp.primaryTheme,
+              ),
+            ),
+            const Divider(),
+            ListTile(
+              autofocus: true,
+              horizontalTitleGap: 10,
+              hoverColor: ColorsApp.primaryTheme,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StatiscScreen(),
+                  ),
+                );
+              },
+              focusColor: ColorsApp.primaryTheme,
+              leading: const Text(
+                "Estatisticas",
+              ),
+              leadingAndTrailingTextStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 17),
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+                //  color: ColorsApp.primaryTheme,
+              ),
+            ),
+            const Divider(),
           ],
         ),
       ),
-    ));
+    );
   }
 }

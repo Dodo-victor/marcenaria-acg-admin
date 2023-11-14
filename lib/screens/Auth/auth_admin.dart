@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:acg_admin/Resources/auth_admin_methods.dart';
 import 'package:acg_admin/screens/Admin/bottomBar.dart';
 import 'package:acg_admin/screens/Admin/home_screen.dart';
@@ -24,14 +26,15 @@ class _AuthAdminState extends State<AuthAdmin> {
     setState(() {
       _isLogging = false;
     });
-    print(res);
 
     if (res == true) {
+      await Future.delayed(const Duration(seconds: 2));
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => const BottomBar(),
-          ),
-          (route) => false);
+        MaterialPageRoute(
+          builder: (context) => const BottomBar(),
+        ),
+        (route) => false,
+      );
     }
   }
 
@@ -65,11 +68,9 @@ class _AuthAdminState extends State<AuthAdmin> {
             ),
             GoogleSignInButton(
               isLoading: _isLogging,
-              function: () async {
-                await _signInWithGoogle(context: context);
+              function: () => _signInWithGoogle(context: context),
 
-                // print(res);
-              },
+              // print(res);
             ),
           ],
         ),

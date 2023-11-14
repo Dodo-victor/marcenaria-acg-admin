@@ -8,6 +8,7 @@ import 'package:acg_admin/models/merchandise_model.dart';
 import 'package:acg_admin/utilis/colors.dart';
 import 'package:acg_admin/utilis/global_variables.dart';
 import 'package:acg_admin/utilis/pick_image.dart';
+import 'package:acg_admin/utilis/showSnackBar.dart';
 import 'package:acg_admin/utilis/show_select_image_options.dart';
 import 'package:acg_admin/widgets/loader.dart';
 import 'package:flutter/material.dart';
@@ -474,7 +475,8 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                                 size: _medidasController.text,
                                 name: _nameController.text,
                                 descr: _descrController.text,
-                                photoUrl: "", date: DateTime.now(), category: _category! ,
+                                photoUrl: "", date: DateTime.now(),
+                                category: _category!,
                               );
 
                               final merchandiseData =
@@ -493,6 +495,11 @@ class _AddMerchandiseScreenState extends State<AddMerchandiseScreen> {
                                 merchandiseModel: merchandiseData,
                               );
                               //      }
+                            } else {
+                              showSnackBar(
+                                  content:
+                                      "Imgem é obrigatoria por favor coloca",
+                                  context: context);
                             }
                           }
                         });

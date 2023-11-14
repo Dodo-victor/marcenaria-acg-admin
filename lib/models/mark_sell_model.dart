@@ -12,6 +12,7 @@ class MarkSellProduct {
       "nome": merchandiseModel.name,
       "tipoMadeira": merchandiseModel.woodType,
       "medida": merchandiseModel.size,
+      "categoria": merchandiseModel.category,
       "produtoNome": merchandiseModel.productName,
       "descrição": merchandiseModel.descr,
       "data": merchandiseModel.date,
