@@ -2,7 +2,8 @@
 
 import 'package:acg_admin/Resources/auth_admin_methods.dart';
 import 'package:acg_admin/screens/Admin/bottomBar.dart';
-import 'package:acg_admin/screens/Admin/home_screen.dart';
+import 'package:acg_admin/utilis/showSnackBar.dart';
+
 import 'package:acg_admin/widgets/google_sign_button.dart';
 import 'package:flutter/material.dart';
 
@@ -19,15 +20,18 @@ class _AuthAdminState extends State<AuthAdmin> {
   final AuthAdminMethods _adminMethods = AuthAdminMethods();
 
   _signInWithGoogle({required BuildContext context}) async {
-    setState(() {
+
+  try {
+
+        setState(() {
       _isLogging = true;
     });
-    bool res = await _adminMethods.authAdminUserWithGoogle(context: context);
-    setState(() {
+      bool res = await _adminMethods.authAdminUserWithGoogle(context: context);
+          setState(() {
       _isLogging = false;
     });
 
-    if (res == true) {
+      if (res == true) {
       await Future.delayed(const Duration(seconds: 2));
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
@@ -36,6 +40,14 @@ class _AuthAdminState extends State<AuthAdmin> {
         (route) => false,
       );
     }
+    
+  } catch (e) {
+   showSnackBar(content: "Ocorreu um erro desconhecido", context: context);
+    
+  }
+
+
+    
   }
 
   @override

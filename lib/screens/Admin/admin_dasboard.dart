@@ -1,12 +1,11 @@
+import 'package:acg_admin/screens/Admin/all_client_screen.dart';
 import 'package:acg_admin/screens/Admin/settings_screen.dart';
 import 'package:acg_admin/screens/Admin/statisc_screen.dart';
 import 'package:acg_admin/widgets/submit_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../Resources/firestore_methods.dart';
 import '../../utilis/colors.dart';
-import '../../widgets/settings_card.dart';
+
 
 class AdminDashboard extends StatelessWidget {
   const AdminDashboard({Key? key}) : super(key: key);
@@ -73,9 +72,63 @@ class AdminDashboard extends StatelessWidget {
                   .textTheme
                   .titleMedium
                   ?.copyWith(fontSize: 17),
-              trailing: const Icon(
+              trailing:  Icon(
                 Icons.arrow_forward_ios,
-                //  color: ColorsApp.primaryTheme,
+                  color: ColorsApp.primaryTheme,
+              ),
+            ),
+            const Divider(),
+                    ListTile(
+              autofocus: true,
+              horizontalTitleGap: 10,
+              hoverColor: ColorsApp.primaryTheme,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StatiscScreen(),
+                  ),
+                );
+              },
+              focusColor: ColorsApp.primaryTheme,
+              leading: const Text(
+                "Estatisticas",
+              ),
+              leadingAndTrailingTextStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 17),
+              trailing:  Icon(
+                Icons.arrow_forward_ios,
+                  color: ColorsApp.primaryTheme,
+              ),
+            ),
+            const Divider(),
+                    ListTile(
+              autofocus: true,
+              horizontalTitleGap: 10,
+              hoverColor: ColorsApp.primaryTheme,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              onTap: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>  AllClientScreen(),
+                  ),
+                );
+              },
+              focusColor: ColorsApp.primaryTheme,
+              leading: const Text(
+                "Clientes",
+              ),
+              leadingAndTrailingTextStyle: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontSize: 17),
+              trailing:  Icon(
+                Icons.arrow_forward_ios,
+                  color: ColorsApp.primaryTheme,
               ),
             ),
             const Divider(),
@@ -130,39 +183,13 @@ class AdminDashboard extends StatelessWidget {
                   .textTheme
                   .titleMedium
                   ?.copyWith(fontSize: 17),
-              trailing: const Icon(
+              trailing:  Icon(
                 Icons.arrow_forward_ios,
-                //  color: ColorsApp.primaryTheme,
+                  color: ColorsApp.primaryTheme,
               ),
             ),
             const Divider(),
-            ListTile(
-              autofocus: true,
-              horizontalTitleGap: 10,
-              hoverColor: ColorsApp.primaryTheme,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-              onTap: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const StatiscScreen(),
-                  ),
-                );
-              },
-              focusColor: ColorsApp.primaryTheme,
-              leading: const Text(
-                "Estatisticas",
-              ),
-              leadingAndTrailingTextStyle: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontSize: 17),
-              trailing: const Icon(
-                Icons.arrow_forward_ios,
-                //  color: ColorsApp.primaryTheme,
-              ),
-            ),
-            const Divider(),
+    
           ],
         ),
       ),

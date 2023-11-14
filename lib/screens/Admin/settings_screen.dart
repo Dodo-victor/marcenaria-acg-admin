@@ -100,21 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   width: 5,
                                 ),
                                 _isAdding
-                                    ? InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            _isAdding = !_isAdding;
-                                          });
-                                        },
-                                        child: Container(
-                                            alignment: Alignment.center,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(),
-                                            ),
-                                            child: const Icon(Icons.add_sharp)),
-                                      )
-                                    : SingleChildScrollView(
+                                    ? SingleChildScrollView(
                                         child: Column(
                                           children: [
                                             Form(
@@ -149,6 +135,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                         content:
                                                             "Contacto adicionado!",
                                                         context: context);
+
+                                                        setState(() {
+                                                          _isAdding = false;
+                                                        });
                                                   }
                                                 },
                                                 title: "Adcionar"),
@@ -168,7 +158,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             ),
                                           ],
                                         ),
+                                      ) : InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _isAdding = !_isAdding;
+                                          });
+                                        },
+                                        child: Container(
+                                            alignment: Alignment.center,
+                                            height: 30,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(),
+                                            ),
+                                            child: const Icon(Icons.add_sharp)),
                                       )
+                                   
                               ],
                             )
                           : Column(
@@ -214,6 +218,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             Form(
                                               key: _formState,
                                               child: CustomInput(
+                                                keyboardType: TextInputType.number,
                                                 validator: (value) {
                                                   if (value!.isEmpty) {
                                                     return "Este campo não pode estar vázio";
@@ -238,6 +243,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                                 _contactController
                                                                     .text,
                                                             context: context);
+                                                            setState(() {
+                                                              _isAdding = false;
+                                                            });
                                                     _contactController.clear();
                                                     showSnackBar(
                                                         content:

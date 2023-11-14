@@ -5,6 +5,7 @@ class CustomInput extends StatelessWidget {
   final TextEditingController? controller;
   final String title;
   final BoxConstraints? constraints;
+  final TextInputType? keyboardType;
   final bool isExpands;
   final int? maxLines;
   final int? minLines;
@@ -19,7 +20,7 @@ class CustomInput extends StatelessWidget {
       this.isExpands = false,
       this.validator,
       this.maxLines = 1,
-      this.minLines = 1})
+      this.minLines = 1, this.keyboardType})
       : super(key: key);
 
   @override
@@ -31,6 +32,7 @@ class CustomInput extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: TextFormField(
           controller: controller,
+         keyboardType: keyboardType ,
           expands: isExpands,
           validator: validator,
           maxLines: maxLines,

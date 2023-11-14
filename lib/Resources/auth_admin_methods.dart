@@ -45,11 +45,11 @@ class AuthAdminMethods {
         res = true;
       }
        
-    } on FirebaseAuthException catch (e) {
+    }  catch (e) {
       res = false;
       showSnackBar(
           content:
-              "Ocorreu um erro ao autenticar. Tente mais tarde! ${e.message}",
+              "Ocorreu um erro ao autenticar. Tente mais tarde! ${e}",
           context: context);
     }
 
